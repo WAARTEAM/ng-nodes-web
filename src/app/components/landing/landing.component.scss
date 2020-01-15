@@ -1,5 +1,15 @@
-img {
-  .img-fluid {
-    width: 100%;
+.text-center {
+  margin: 150px;
+  h1 {
+    font-weight: bold;
+  }
+  p {
+    font-family: "Roboto", sans-serif;
+  }
+  #btn {
+    &:hover {
+      background-color: white;
+      color: black;
+    }
   }
 }
