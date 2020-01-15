@@ -9,11 +9,6 @@ import { FormsModule } from "@angular/forms";
 import { LandingComponent } from "./components/landing/landing.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { LoginComponent } from "./components/login/login.component";
-// this is going to have all of our routes
-const appRoutes: Routes = [
-  { path: "", component: LandingComponent },
-  { path: "Login", component: LoginComponent }
-];
 
 @NgModule({
   declarations: [
@@ -22,12 +17,7 @@ const appRoutes: Routes = [
     NavbarComponent,
     LoginComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    RouterModule.forRoot(appRoutes)
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
