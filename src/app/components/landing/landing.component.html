@@ -1,16 +1,24 @@
 <div class="text-center">
-  <h1>OMEGLE</h1>
-  <p class="lead">
-    WELCOME TO OMEGLE <br />
+  <h1 style="color: white">OMEGLE</h1>
+  <p class="lead" style="color: white;">
     JOIN OUR CHATROOMS
   </p>
   <div>
     <button
-      type="button "
-      class="btn btn-outline-primary btn-rounded
-    waves-effect"
+      id="btn"
+      (click)="(submit)"
+      mdbBtn
+      color="white"
+      outline="true"
+      rounded="true"
+      block="true"
+      class="my-4 waves-effect z-depth-0"
+      mdbWavesEffect
+      type="submit"
+      routerLink="register"
+      style="border-radius: 20px;"
     >
-      SIGN UP
+      Sign up
     </button>
   </div>
 </div>
