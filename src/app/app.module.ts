@@ -1,7 +1,6 @@
 
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule, Component } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from "@angular/core";
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -10,7 +9,6 @@ import { SignupComponent } from './signup/signup.component';
 import { LandingComponent } from "./components/landing/landing.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { LoginComponent } from "./components/login/login.component";
-
 
 @NgModule({
   declarations: [
@@ -24,12 +22,10 @@ import { LoginComponent } from "./components/login/login.component";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MDBBootstrapModule.forRoot()
-
+    MDBBootstrapModule
     
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers:[],
+  bootstrap:[AppComponent]
 })
 export class AppModule {}
