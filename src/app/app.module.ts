@@ -14,8 +14,10 @@ import { FlashMessagesModule } from "angular2-flash-messages";
 
 import { AuthService } from "./services/auth.service";
 import { ValidateService } from "./services/validate.service";
-import { HttpModule } from "@angular/http";
 import { ProfileComponent } from './components/profile/profile.component';
+import { ChatpageComponent } from './components/chatpage/chatpage.component';
+import { HttpClientModule } from "@angular/common/http";
+
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     NavbarComponent,
     LoginComponent,
     SignupComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChatpageComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
     MDBBootstrapModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    HttpModule
+    HttpClientModule
   ],
   providers: [ValidateService, AuthService],
   bootstrap: [AppComponent]

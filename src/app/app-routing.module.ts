@@ -4,6 +4,9 @@ import { LandingComponent } from "./components/landing/landing.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./signup/signup.component";
 import { ProfileComponent } from './components/profile/profile.component';
+import { ChatpageComponent } from './components/chatpage/chatpage.component';
+
+
 const routes: Routes = [
   { path: "", component: LandingComponent },
   { path: "Login", component: LoginComponent },
