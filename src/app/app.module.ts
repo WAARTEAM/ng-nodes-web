@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 
 import { NgModule } from "@angular/core";
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { MDBBootstrapModule } from "angular-bootstrap-md";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -10,9 +10,12 @@ import { SignupComponent } from "./signup/signup.component";
 import { LandingComponent } from "./components/landing/landing.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { LoginComponent } from "./components/login/login.component";
+import { FlashMessagesModule } from "angular2-flash-messages";
 
+import { AuthService } from "./services/auth.service";
 import { ValidateService } from "./services/validate.service";
 import { ChatpageComponent } from './components/chatpage/chatpage.component';
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -29,10 +32,11 @@ import { ChatpageComponent } from './components/chatpage/chatpage.component';
     AppRoutingModule,
     FormsModule,
 
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    FlashMessagesModule.forRoot(),
+    HttpClientModule
   ],
-  providers: [ValidateService],
+  providers: [ValidateService, AuthService],
   bootstrap: [AppComponent]
-
 })
 export class AppModule {}
