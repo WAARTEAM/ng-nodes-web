@@ -7,7 +7,13 @@
   <!--Card content-->
   <div class="card-body px-lg-5 pt-0">
     <!-- Form -->
-    <form class="text-center" style="color: #757575;" action="#!">
+    <form
+      #form="ngForm"
+      (ngSubmit)="onLogin(form)"
+      class="text-center"
+      style="color: #757575;"
+      action="#!"
+    >
       <div class="form-row">
         <div class="col">
           <!-- First name -->
@@ -16,7 +22,7 @@
               type="text"
               id="materialRegisterFormFirstName"
               class="form-control"
-              [(ngModel)]="username"
+              ngModel
               name="username"
             />
             <label for="materialRegisterFormFirstName">Username</label>
@@ -33,7 +39,7 @@
           id="materialRegisterFormPassword"
           class="form-control"
           aria-describedby="materialRegisterFormPasswordHelpBlock"
-          [(ngModel)]="password"
+          ngModel
           name="password"
         />
         <label for="materialRegisterFormPassword">Password</label>
