@@ -1,18 +1,38 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { NgModule } from "@angular/core";
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { FormsModule } from "@angular/forms";
+import { SignupComponent } from "./signup/signup.component";
+import { LandingComponent } from "./components/landing/landing.component";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { LoginComponent } from "./components/login/login.component";
+
+import { ValidateService } from "./services/validate.service";
+import { ChatpageComponent } from './components/chatpage/chatpage.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LandingComponent,
+    NavbarComponent,
+    LoginComponent,
+    SignupComponent,
+    ChatpageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+
+    MDBBootstrapModule.forRoot()
   ],
-  providers: [],
+  providers: [ValidateService],
   bootstrap: [AppComponent]
+
 })
-export class AppModule { }
+export class AppModule {}
