@@ -12,6 +12,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { LoginComponent } from "./components/login/login.component";
 
 import { ValidateService } from "./services/validate.service";
+import { ChatpageComponent } from './components/chatpage/chatpage.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ValidateService } from "./services/validate.service";
     LandingComponent,
     NavbarComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ChatpageComponent
   ],
   imports: [
     BrowserModule,
