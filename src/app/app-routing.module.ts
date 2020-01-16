@@ -9,13 +9,13 @@ import {AuthGuard} from './guards/auth.guard'
 
 const routes: Routes = [
   { path: "", component: LandingComponent },
+
   { path: "Login", component: LoginComponent },
   { path: "profile", component: ProfileComponent, data: {profile : true} },
   { path: "users/:username", component: ProfileComponent, data: {profile : false} },
   { path: "register", component: SignupComponent },
 
   { path: "chatroom" ,component: ChatpageComponent , canActivate:[AuthGuard]}
-
 ];
 
 @NgModule({
