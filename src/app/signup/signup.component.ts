@@ -46,13 +46,13 @@ export class SignupComponent implements OnInit {
           cssClass: "alert-success",
           timeout: 3000
         });
-        this.router.navigate(["/login"]);
+        this.router.navigate(["login"]);
       }else{
         this.flashMessage.show(data["msg"], {
           cssClass: "alert-danger",
           timeout: 3000
         }); 
-        this.router.navigate(["/register"]);
+        this.router.navigate(["register"]);
       }
       //this needs to be fixed, it need to check the status of the body if it's true or false, and respond to the user respectively
 
