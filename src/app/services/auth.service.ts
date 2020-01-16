@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { map } from "rxjs/operators";
-
 @Injectable({
   providedIn: "root"
 })
@@ -10,6 +8,7 @@ export class AuthService {
   user: any;
   constructor(private http: HttpClient) {}
   registerUser(user) {
+
     return this.http.post("http://waar-nodes.herokuapp.com/api/users", user);
     // .subscribe(data => console.log(data));
     // .pipe(map((response: any) => response.json()))
@@ -27,4 +26,18 @@ export class AuthService {
     this.authToken = token;
     this.user = user;
   }
+
+  isLoggedIn(){
+    return !!localStorage.getItem("id_token");
+  }
+  logout(){
+    this.authToken = null;
+    this.user = null;
+    localStorage.clear();
+  }
+
+  loadToken (){
+    this.authToken = localStorage.getItem("id_token")
+  }
+
 }
