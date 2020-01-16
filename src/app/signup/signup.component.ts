@@ -40,7 +40,6 @@ export class SignupComponent implements OnInit {
     }
     // Register user
     this.authService.registerUser(user).subscribe(data=> {
-      console.log(data)
       if(data["success"]){
         this.flashMessage.show("Signed Up Successfully", {
           cssClass: "alert-success",
