@@ -7,7 +7,7 @@ import { ChatpageComponent } from './components/chatpage/chatpage.component';
 
 
 const routes: Routes = [
-  { path: "", component: ChatpageComponent },
+  { path: "", component: LandingComponent },
   { path: "Login", component: LoginComponent },
 
   { path: "register", component: SignupComponent }
