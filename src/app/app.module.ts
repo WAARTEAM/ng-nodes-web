@@ -14,7 +14,9 @@ import { FlashMessagesModule } from "angular2-flash-messages";
 
 import { AuthService } from "./services/auth.service";
 import { ValidateService } from "./services/validate.service";
+import { ChatpageComponent } from './components/chatpage/chatpage.component';
 import { HttpClientModule } from "@angular/common/http";
+
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { HttpClientModule } from "@angular/common/http";
     LandingComponent,
     NavbarComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ChatpageComponent
   ],
   imports: [
     BrowserModule,
