@@ -1,11 +1,17 @@
 <!--Navbar-->
-
 <nav class="navbar navbar-expand-lg navbar-dark blue-gradient ">
-    <!-- Navbar brand -->
-    <a class="navbar-brand" href="#"> Omegle</a>
-
-    <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#"> Omegle</a>
+  <!-- Collapse button -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#basicExampleNav"
+    aria-controls="basicExampleNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -14,23 +20,28 @@
         <!-- Links -->
         <ul class="navbar-nav">
           <li class="nav-item active" [routerLinkActive]="['active']">
-                <a class="nav-link" [routerLink]="['/']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" routerLink="/home" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
                   Home
                <!-- <span class="sr-only">(current)</span> -->
-        </a>
+                </a>
             </li>
             <li class="nav-item active" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
-                Login
+              <a class="nav-link"  routerLink="/login" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                login
+             <!-- <span class="sr-only">(current)</span> -->
+              </a>
             </li>
+            <!-- <span style = "float: right;" class="nav-item"   routerLink="/logout" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+              logout
+            </span> -->
         </ul>
       
         <!-- <li class="nav-item">
 
         <a class="nav-link" href="#">Pricing</a>
       </li> -->
-
-        <!-- Dropdown -->
-        <!-- <li class="nav-item dropdown">
+      <!-- Dropdown -->
+      <!-- <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
           id="navbarDropdownMenuLink"
@@ -51,9 +62,7 @@
 
         <!-- Links -->
     </div>
-    <span style = "float: right;" class="nav-item"   routerLink="/logout" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
-      logout
-    </span>
+    
     <!-- Collapsible content -->
 </nav>
 <!--/.Navbar-->
