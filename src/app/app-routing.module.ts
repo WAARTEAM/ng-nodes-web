@@ -1,11 +1,21 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { LandingComponent } from "./components/landing/landing.component";
+import { LoginComponent } from "./components/login/login.component";
+import { SignupComponent } from "./signup/signup.component";
+import { ChatpageComponent } from './components/chatpage/chatpage.component';
+import {AuthGuard} from './guards/auth.guard'
 
+const routes: Routes = [
+  { path: "", component: LandingComponent },
+  { path: "Login", component: LoginComponent },
+  { path: "register", component: SignupComponent },
+  { path: "chatroom" ,component: ChatpageComponent , canActivate:[AuthGuard]}
 
-const routes: Routes = [];
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
