@@ -14,7 +14,7 @@ import { FlashMessagesModule } from "angular2-flash-messages";
 
 import { AuthService } from "./services/auth.service";
 import { ValidateService } from "./services/validate.service";
-import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { HttpModule } from "@angular/http";
 
     MDBBootstrapModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    HttpModule
+    HttpClientModule
   ],
   providers: [ValidateService, AuthService],
   bootstrap: [AppComponent]
