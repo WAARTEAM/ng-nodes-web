@@ -14,7 +14,8 @@ import { ValidateService } from "./services/validate.service";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { ChatpageComponent } from "./components/chatpage/chatpage.component";
 import { HttpClientModule } from "@angular/common/http";
-import { AuthGuard } from "./guards/auth.guard";
+import { AuthGuard } from './guards/auth.guard';
+import {NotAuthGuard} from './guards/notauth.guard'
 
 @NgModule({
   declarations: [
@@ -30,12 +31,11 @@ import { AuthGuard } from "./guards/auth.guard";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-
     MDBBootstrapModule.forRoot(),
     FlashMessagesModule.forRoot(),
     HttpClientModule
   ],
-  providers: [ValidateService, AuthService, AuthGuard],
+  providers: [ValidateService, AuthService,AuthGuard,NotAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

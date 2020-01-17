@@ -1,14 +1,15 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   authToken: any;
   user: any;
+  isAuthenticated:Subject<boolean> = new Subject();
   constructor(private http: HttpClient) {}
   registerUser(user) {
-
     return this.http.post("http://waar-nodes.herokuapp.com/api/users", user);
     // .subscribe(data => console.log(data));
     // .pipe(map((response: any) => response.json()))
@@ -22,11 +23,10 @@ export class AuthService {
 
   storeUserData(token, user) {
     localStorage.setItem("id_token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", user["username"]);
     this.authToken = token;
     this.user = user;
   }
-
   isLoggedIn(){
     return !!localStorage.getItem("id_token");
   }
@@ -35,12 +35,11 @@ export class AuthService {
     this.user = null;
     localStorage.clear();
   }
-
-  loadToken (){
-    this.authToken = localStorage.getItem("id_token")
+  getToken (){
+    return localStorage.getItem("id_token")
   }
 
 
-  
+
 
 }
