@@ -15,6 +15,7 @@ import { FlashMessagesModule } from "angular2-flash-messages";
 import { AuthService } from "./services/auth.service";
 import { ValidateService } from "./services/validate.service";
 import { HttpClientModule } from "@angular/common/http";
+import { ClientHomeComponent } from './components/client-home/client-home.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from "@angular/common/http";
     LandingComponent,
     NavbarComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ClientHomeComponent
   ],
   imports: [
     BrowserModule,
