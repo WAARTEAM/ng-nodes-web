@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   authToken: any;
   user: any;
+  isAuthenticated:Subject<boolean> = new Subject();
   constructor(private http: HttpClient) {}
   registerUser(user) {
     return this.http.post("http://waar-nodes.herokuapp.com/api/users", user);
@@ -33,8 +35,8 @@ export class AuthService {
     this.user = null;
     localStorage.clear();
   }
-  loadToken (){
-    this.authToken = localStorage.getItem("id_token")
+  getToken (){
+    return localStorage.getItem("id_token")
   }
 
 
