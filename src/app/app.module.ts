@@ -11,10 +11,10 @@ import { LoginComponent } from "./components/login/login.component";
 import { FlashMessagesModule } from "angular2-flash-messages";
 import { AuthService } from "./services/auth.service";
 import { ValidateService } from "./services/validate.service";
-import { ProfileComponent } from './components/profile/profile.component';
-import { ChatpageComponent } from './components/chatpage/chatpage.component';
+import { ProfileComponent } from "./components/profile/profile.component";
+import { ChatpageComponent } from "./components/chatpage/chatpage.component";
 import { HttpClientModule } from "@angular/common/http";
-import { AuthGuard } from './guards/auth.guard'; 
+import { AuthGuard } from "./guards/auth.guard";
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { AuthGuard } from './guards/auth.guard';
     FlashMessagesModule.forRoot(),
     HttpClientModule
   ],
-  providers: [ValidateService, AuthService,AuthGuard],
+  providers: [ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
