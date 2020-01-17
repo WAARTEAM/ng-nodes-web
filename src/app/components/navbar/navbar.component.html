@@ -19,13 +19,16 @@
                <!-- <span class="sr-only">(current)</span> -->
                 </a>
             </li>
-            <li class="nav-item active" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
-
-              <a class="nav-link"  routerLink="login" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
-
+            <li *ngIf="!isAuthenticated" class="nav-item active" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" routerLink="login" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
                 login
-             <!-- <span class="sr-only">(current)</span> -->
               </a>
+            </li>
+
+            <li *ngIf="isAuthenticated" class="nav-item active" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" routerLink="login" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+              logout
+            </a>
             </li>
             <!-- <span style = "float: right;" class="nav-item"   routerLink="/logout" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
               logout
