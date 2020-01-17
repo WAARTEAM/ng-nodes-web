@@ -1,22 +1,33 @@
 <!-- Card -->
-<div *ngIf="status && $user | async as user" style="display: flex; flex-direction:column; height: 600px;" class="card testimonial-card my-4 text-center">
+<div
+  *ngIf="status && $user | async as user"
+  style="display: flex; flex-direction:column; height: 600px;"
+  class="card testimonial-card my-4 text-center"
+>
+  <!-- Background color -->
+  <div style="flex:10;" class="card-up blue-gradient"></div>
 
-    <!-- Background color -->
-    <div style="flex:10;" class="card-up blue-gradient"></div>
-  
-    <!-- Avatar -->
-    <div style="margin-top: -125px; border-radius: 200px;" class="mx-auto white">
-      <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle" alt="woman avatar">
-    </div>
-  
-    <!-- Content -->
-    <div style="flex:13" class="card-body">
-      <!-- Name -->
-      <h4 class="card-title">{{user.firstname + " " + user.lastname}}</h4>
-      <hr>
-      <!-- Quotation -->
-      <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci</p>
-      <button *ngIf="!profile"
+  <!-- Avatar -->
+  <div style="margin-top: -125px; border-radius: 200px;" class="mx-auto white">
+    <img
+      src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg"
+      class="rounded-circle"
+      alt="woman avatar"
+    />
+  </div>
+
+  <!-- Content -->
+  <div style="flex:13" class="card-body">
+    <!-- Name -->
+    <h4 class="card-title">{{ user.firstname + " " + user.lastname }}</h4>
+    <hr />
+    <!-- Quotation -->
+    <p>
+      <i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur
+      adipisicing elit. Eos, adipisci
+    </p>
+    <button
+      *ngIf="!profile"
       class="my-4 waves-effect z-depth-0 mx-auto"
       style="border-radius: 20px;width: 200px;"
       mdbBtn
@@ -25,12 +36,10 @@
       rounded="true"
       block="true"
       mdbWavesEffect
-      type="submit"
-      routerLink="register"
+      (click)="handleFriendRequests()"
     >
-      {{status}}
+      {{ status }}
     </button>
-    </div>
-  
   </div>
-  <!-- Card -->
+</div>
+<!-- Card -->
