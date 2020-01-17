@@ -8,7 +8,6 @@ import { ChatpageComponent } from './components/chatpage/chatpage.component';
 import {AuthGuard} from './guards/auth.guard'
 import {NotAuthGuard} from './guards/notauth.guard'
 
-
 const routes: Routes = [
   { path: "", component: LandingComponent,canActivate:[NotAuthGuard]},
   { path: "login", component: LoginComponent ,canActivate:[NotAuthGuard]},
