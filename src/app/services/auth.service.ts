@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class AuthService {
   authToken: any;
-  user: any;
+  user :any ;
   constructor(private http: HttpClient) {}
   registerUser(user) {
 
@@ -22,7 +22,7 @@ export class AuthService {
 
   storeUserData(token, user) {
     localStorage.setItem("id_token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("username", user['username']);
     this.authToken = token;
     this.user = user;
   }
@@ -38,6 +38,9 @@ export class AuthService {
 
   loadToken (){
     this.authToken = localStorage.getItem("id_token")
+  }
+  getUsername (){
+    return localStorage.getItem("username")
   }
 
 

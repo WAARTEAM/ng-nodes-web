@@ -10,8 +10,8 @@ import {AuthGuard} from './guards/auth.guard'
 const routes: Routes = [
   { path: "", component: LandingComponent },
   { path: "login", component: LoginComponent },
-  { path: "profile", component: ProfileComponent, data: {profile : true} },
-  { path: "users/:username", component: ProfileComponent, data: {profile : false} },
+  { path: "profile", component: ProfileComponent },
+  { path: "users/:username", component: ProfileComponent },
   { path: "register", component: SignupComponent },
   { path: "chatroom" ,component: ChatpageComponent , canActivate:[AuthGuard]}
 ];
