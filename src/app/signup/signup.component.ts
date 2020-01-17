@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./signup.component.scss"]
 })
 export class SignupComponent implements OnInit {
+
   constructor(
     private validateService: ValidateService,
     private flashMessage: FlashMessagesService,
@@ -38,24 +39,24 @@ export class SignupComponent implements OnInit {
       return false;
     }
     // Register user
-    this.authService.registerUser(user).subscribe(data => {
-      console.log(data);
-      if (data["success"]) {
+    this.authService.registerUser(user).subscribe(data=> {
+      if(data["success"]){
         this.flashMessage.show("Signed Up Successfully", {
           cssClass: "alert-success",
           timeout: 3000
         });
         this.router.navigate(["login"]);
-      } else {
+      }else{
         this.flashMessage.show(data["msg"], {
           cssClass: "alert-danger",
           timeout: 3000
-        });
-        this.router.navigate(["/register"]);
+        }); 
+        this.router.navigate(["register"]);
       }
       //this needs to be fixed, it need to check the status of the body if it's true or false, and respond to the user respectively
 
-      // if (data["_body"].json()) {
+
+      // if (data["_body"].json()){
       // this.flashMessage.show("you are now registered and can log in", {
       //   cssClass: "alert-success",
       //   timeout: 3000
@@ -65,6 +66,7 @@ export class SignupComponent implements OnInit {
       // }
     });
   }
+  
 
   ngOnInit() {}
 }

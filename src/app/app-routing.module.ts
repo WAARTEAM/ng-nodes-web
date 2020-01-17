@@ -3,18 +3,21 @@ import { Routes, RouterModule } from "@angular/router";
 import { LandingComponent } from "./components/landing/landing.component";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./signup/signup.component";
-import { ClientHomeComponent } from "./components/client-home/client-home.component";
-const routes: Routes = [
-  {
-    path: "",
-    component: LandingComponent,
-    children: [
-      { path: "", component: ClientHomeComponent },
-      { path: "Login", component: LoginComponent },
+import { ProfileComponent } from "./components/profile/profile.component";
+import { ChatpageComponent } from "./components/chatpage/chatpage.component";
+import { AuthGuard } from "./guards/auth.guard";
 
-      { path: "register", component: SignupComponent }
-    ]
-  }
+const routes: Routes = [
+  { path: "", component: LandingComponent },
+  { path: "login", component: LoginComponent },
+  { path: "profile", component: ProfileComponent, data: { profile: true } },
+  {
+    path: "users/:username",
+    component: ProfileComponent,
+    data: { profile: false }
+  },
+  { path: "register", component: SignupComponent },
+  { path: "chatroom", component: ChatpageComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
