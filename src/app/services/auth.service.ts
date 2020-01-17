@@ -23,7 +23,7 @@ export class AuthService {
 
   storeUserData(token, user) {
     localStorage.setItem("id_token", token);
-    localStorage.setItem("user", user["username"]);
+    localStorage.setItem("username", user['username']);
     this.authToken = token;
     this.user = user;
   }
@@ -37,6 +37,9 @@ export class AuthService {
   }
   getToken (){
     return localStorage.getItem("id_token")
+  }
+  getUsername (){
+    return localStorage.getItem("username")
   }
 
 

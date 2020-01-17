@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpService } from 'src/app/services/http/http.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,9 +12,26 @@ import {HttpClient} from "@angular/common/http";
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private http : HttpClient) { }
+  profile:boolean;
+  status : String= "";
+  $user:Observable<any>;
+  constructor(private http : HttpService, private activatedRoute:ActivatedRoute, private authService : AuthService) { }
 
   ngOnInit() {
+    
+    this.activatedRoute.params.subscribe(param => {
+      this.profile = !param.username
+      if(this.profile) this.$user = this.http.get(`/api/users/${this.authService.getUsername()}`).pipe(map(one => one['user']))
+      else{
+        this.$user = this.http.get(`/api/users/${param.username}`).pipe(map(one => one['user']))
+      }
+      this.$user.subscribe(user => {
+        if(user.areFriends) this.status = "Remove friend"
+        else if (user.sentRequest) this.status = "Remove friend request"
+        else if (user.gotRequest) this.status = "Accept friend request"
+        else this.status = "Add friend"
+      })
+    })
   }
 
 }
