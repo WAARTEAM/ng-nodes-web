@@ -6,10 +6,12 @@ import { SignupComponent } from "./signup/signup.component";
 import { ProfileComponent } from './components/profile/profile.component';
 import { ChatpageComponent } from './components/chatpage/chatpage.component';
 import {AuthGuard} from './guards/auth.guard'
+import {NotAuthGuard} from './guards/notauth.guard'
+
 
 const routes: Routes = [
-  { path: "", component: LandingComponent },
-  { path: "login", component: LoginComponent },
+  { path: "", component: LandingComponent,canActivate:[NotAuthGuard]},
+  { path: "login", component: LoginComponent ,canActivate:[NotAuthGuard]},
   { path: "profile", component: ProfileComponent, data: {profile : true} },
   { path: "users/:username", component: ProfileComponent, data: {profile : false} },
   { path: "register", component: SignupComponent },
