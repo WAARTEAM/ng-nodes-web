@@ -26,9 +26,10 @@ export class ProfileComponent implements OnInit {
         this.$user = this.http.get(`/api/users/${param.username}`).pipe(map(one => one['user']))
       }
       this.$user.subscribe(user => {
+        console.log(user)
         if(user.areFriends) this.status = "Remove friend"
         else if (user.sentRequest) this.status = "Remove friend request"
-        else if (user.gotRequest) this.status = "Accept friend request"
+        else if (user.gotrequest) this.status = "Accept friend request"
         else this.status = "Add friend"
       })
     })
