@@ -10,11 +10,14 @@ export class NavbarComponent implements OnInit {
 
   constructor(private authService:AuthService) {}
   
+  logOut(){
+    this.authService.logout()
+  }
+
   ngOnInit() {
-  this.authService.isAuthenticated.subscribe(bool=>{
-    console.log(bool)
-    this.isAuthenticated = bool;
-  })
+    this.authService.isAuthenticated.subscribe(bool=>{
+      this.isAuthenticated = bool;
+    })
   }
   isAuthenticated: boolean= false;
   
