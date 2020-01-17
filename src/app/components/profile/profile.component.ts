@@ -34,9 +34,10 @@ export class ProfileComponent implements OnInit {
           .pipe(map(one => one["user"]));
       }
       this.$user.subscribe(user => {
+        console.log(user);
         if (user.areFriends) this.status = "Remove friend";
         else if (user.sentRequest) this.status = "Remove friend request";
-        else if (user.gotRequest) this.status = "Accept friend request";
+        else if (user.gotrequest) this.status = "Accept friend request";
         else this.status = "Add friend";
       });
     });
@@ -53,6 +54,14 @@ export class ProfileComponent implements OnInit {
     } else if (this.status === "Add friend") {
       this.http.get(`/users/${this.id}/sendrequest`).subscribe(data => {
         if (data["success"]) this.status = "Remove friend request";
+      });
+    } else if (this.status === "Remove friend") {
+      this.http.get(`/users/${this.id}/removefriend`).subscribe(data => {
+        if (data["success"]) this.status = "Add friend";
+      });
+    } else if (this.status === "Accept friend request") {
+      this.http.get(`/users/${this.id}/acceptrequest`).subscribe(data => {
+        if (data["success"]) this.status = "Remove friend";
       });
     }
   }
