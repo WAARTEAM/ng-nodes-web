@@ -34,15 +34,13 @@ export class ProfileComponent implements OnInit {
           .pipe(map(one => one["user"]));
       }
       this.$user.subscribe(user => {
+        this.id = user._id;
         console.log(user);
         if (user.areFriends) this.status = "Remove friend";
         else if (user.sentRequest) this.status = "Remove friend request";
         else if (user.gotrequest) this.status = "Accept friend request";
         else this.status = "Add friend";
       });
-    });
-    this.$user.subscribe(data => {
-      this.id = data._id;
     });
   }
 
