@@ -11,7 +11,6 @@ export class LandingComponent implements OnInit {
   constructor(private http: HttpService) { }
 
   ngOnInit() {
-    this.http.get("/api/users/Admin202").subscribe(data =>console.log(data))
   }
 
 }

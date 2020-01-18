@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
 export class AuthService {
   authToken: any;
   user: any;
+  searchVal = "";
+  searchValSubject: Subject<String> = new Subject()
   isAuthenticated: Subject<boolean> = new Subject();
 
   constructor(private http: HttpClient, private router: Router) {}

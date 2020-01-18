@@ -7,6 +7,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ChatpageComponent } from './components/chatpage/chatpage.component';
 import {AuthGuard} from './guards/auth.guard'
 import {NotAuthGuard} from './guards/notauth.guard'
+import { SearchAreaComponent } from './components/search-area/search-area.component';
 
 const routes: Routes = [
   { path: "", component: LandingComponent,canActivate:[NotAuthGuard]},
@@ -14,7 +15,10 @@ const routes: Routes = [
   { path: "profile", component: ProfileComponent, canActivate:[AuthGuard]},
   { path: "users/:username", component: ProfileComponent, canActivate:[AuthGuard]},
   { path: "register", component: SignupComponent,canActivate:[NotAuthGuard]},
-  { path: "chatroom" ,component: ChatpageComponent , canActivate:[AuthGuard]}
+  { path: "chatroom" ,component: ChatpageComponent , canActivate:[AuthGuard]},
+  { path: "search" ,component: SearchAreaComponent , canActivate:[AuthGuard]}
+
+
 ];
 
 @NgModule({
