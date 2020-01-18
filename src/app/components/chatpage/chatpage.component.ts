@@ -20,7 +20,6 @@ export class ChatpageComponent implements OnInit {
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
     this.http.get(`/messages/latest`).subscribe(data => {
-      console.log(data);
       this.latest = data;
       this.currentReceiver =
         this.latest[0].sender.username === this.currentUser
@@ -74,6 +73,7 @@ export class ChatpageComponent implements OnInit {
     this.http.get("/groups").subscribe(data => {
       this.latestChatrooms = data;
       this.currentRoom = this.latestChatrooms[0]._id;
+
       this.getChatroom();
       this.changeRender("chatrooms");
     });
