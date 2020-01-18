@@ -6,6 +6,7 @@
       <div class="col-md- col-xl-4 px-0">
         <span style="text-align: center;">
           <button
+            (click)="changeRender('friends')"
             type="button"
             outline="true"
             rounded="true"
@@ -20,6 +21,7 @@
             rounded="true"
             style="border-radius: 20px;margin-top: -20px; "
             class="btn btn-info btn-rounded btn-sm waves-effect waves-light "
+            (click)="getChatrooms()"
           >
             Chatrooms
           </button>
@@ -27,14 +29,19 @@
         <div class="white z-depth-1 px-3 pt-3 p-2">
           <!-- :========================================= Freinds list ==============================================-->
           <ul
-            style="max-height: 70vh; overflow-y: scroll; "
+            *ngIf="render === 'friends'"
+            style="height: 70vh; overflow-y: scroll; "
             class="list-unstyled friend-list "
           >
             <li
+              (click)="changeCurrent(message)"
               *ngFor="let message of latest"
-              class="active grey lighten-3 p-2"
+              class="lighten-3 p-2"
+              [ngClass]="{
+                'active grey': receiverId(message) === currentReceiver
+              }"
             >
-              <a href="#" class="d-flex justify-content-between">
+              <a class="d-flex justify-content-between">
                 <img
                   src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
                   alt="avatar"
@@ -62,6 +69,38 @@
               </a>
             </li>
           </ul>
+
+          <!-- :========================================= Chats list ==============================================-->
+          <ul
+            *ngIf="render === 'chatrooms'"
+            style="height: 70vh; overflow-y: scroll; "
+            class="list-unstyled friend-list "
+          >
+            <li
+              (click)="currentChatroom(chatroom)"
+              *ngFor="let chatroom of latestChatrooms"
+              class="lighten-3 p-2"
+            >
+              <a class="d-flex justify-content-between">
+                <img
+                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                  alt="avatar"
+                  class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
+                />
+                <div class="text-small">
+                  <strong style="float: left;">
+                    {{ chatroom.name }}
+                  </strong>
+                  <br />
+                  <p class="last-message text-muted">hi</p>
+                </div>
+                <div class="chat-footer">
+                  <p class="text-smaller text-muted mb-0">Just now</p>
+                  <span class="badge badge-danger float-right">1</span>
+                </div>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
       <!-- Grid column -->
@@ -71,7 +110,7 @@
         <div class="chat-message">
           <ul
             class="list-unstyled chat"
-            style="max-height: 55vh; overflow-y: scroll; margin-top: 0px "
+            style="height: 55vh; overflow-y: scroll; margin-top: 0px "
           >
             <!--================================= the Sent message ============================================  -->
             <div *ngFor="let message of messages">
