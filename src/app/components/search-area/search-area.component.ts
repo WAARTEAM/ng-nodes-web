@@ -15,7 +15,8 @@ export class SearchAreaComponent implements OnInit {
   searchValSubject:Subscription;
   $users:Observable<any>;
   getUsers(keyword){
-   this.$users = this.http.get("/users/search" , `?keyword=${keyword}`)
+    if(keyword)
+    this.$users = this.http.get("/users/search" , `?keyword=${keyword}`)
   } 
   ngOnInit() {
     this.searchValSubject =  this.authService.searchValSubject.subscribe(one =>{

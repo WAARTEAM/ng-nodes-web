@@ -1,11 +1,15 @@
-<div style="height: 600px;" class=" card blue-gradient lighten-3 chat-room mt-3 ">
-    <div class="card-body">
+<div *ngIf="$users | async as users" style="height: 600px; width: 700px; " class=" card blue-gradient lighten-3 chat-room mt-3 mx-auto ">
+  <h3 style="text-align: center;color: white;" class="mt-4">
+    <b>{{users.length==0? "Nothing was found" : users.length == 1? "1 result was found": users.length + " results were found"}}</b></h3>
+  <hr style="background: white;">
+    <div class="card-body" style="overflow-y: scroll;">
       <!-- Grid row -->
       <div class="row px-lg-2 px-2 justify-content-center ">
         <!-- Grid column -->
-        <div 
+        <div
+        *ngFor="let user of users" 
         style="width : 400px"
-        class="active white rounded-pill border border-primary lighten-3 p-2"
+        class="active white rounded-pill border border-primary lighten-3 p-2 my-2 col-8"
       >
         <a class="d-flex justify-content-left">
           <img
@@ -14,16 +18,17 @@
             class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
           />
           <div class="text-small">
-            <strong style="float: left;">
-              HAHA
+            <strong [routerLink]="'/users/' + user.username" routerLinkActive="router-link-active"  style="float: left; cursor: pointer;">
+              {{user.name}}
             </strong>
             <br />
-            <p class="last-message text-muted">hehe</p>
+            <p class="last-message text-muted">{{user.username}}</p>
           </div>
           <div class="chat-footer">
           </div>
         </a>
-    </div>
+    </div
+    >
         <!-- Grid column -->
   
         <!-- Grid column -->
