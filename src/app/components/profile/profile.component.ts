@@ -63,4 +63,15 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
+
+  sendMessage(value){
+    this.http
+      .post(`/users/${this.id}/messages`, {
+        content: value
+      }).subscribe(data => {
+         //logic of adding the message as a template to the chat
+        console.log(data)
+       }); 
+  }
+
 }

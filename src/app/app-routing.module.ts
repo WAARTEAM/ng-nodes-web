@@ -5,8 +5,8 @@ import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./signup/signup.component";
 import { ProfileComponent } from './components/profile/profile.component';
 import { ChatpageComponent } from './components/chatpage/chatpage.component';
-import {AuthGuard} from './guards/auth.guard'
-import {NotAuthGuard} from './guards/notauth.guard'
+import { AuthGuard } from './guards/auth.guard'
+import { NotAuthGuard } from './guards/notauth.guard'
 
 const routes: Routes = [
   { path: "", component: LandingComponent,canActivate:[NotAuthGuard]},
