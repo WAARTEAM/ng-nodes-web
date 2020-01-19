@@ -7,22 +7,26 @@ import { HttpService } from "src/app/services/http/http.service";
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-  constructor(private http: HttpService) {}
+  constructor(public http: HttpService) {}
   currentReceiver: any;
   currentUser: any;
+  currentRoom: any;
+  render: String = "friends";
+  messages: any;
+  latest: any;
+  latestChatrooms: any;
+  chatrooms: any;
+
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
     this.http.get(`/messages/latest`).subscribe(data => {
+      console.log(data)
       this.latest = data;
       this.currentReceiver =
         this.latest[0].sender.username === this.currentUser
           ? this.latest[0].receiver._id
           : this.latest[0].sender._id;
-      this.http
-        .get(`/users/${this.currentReceiver}/messages`)
-        .subscribe(messages => {
-          this.messages = messages;
-        });
+      this.getMessages();
     });
   }
   content: String;
@@ -38,43 +42,47 @@ export class ChatpageComponent implements OnInit {
       });
   }
 
-  messages: any;
-  // {
-  //   username: "Mathew MacConhey",
-  //   content: "all right all right all right ",
-  //   sent: "5 min ago",
-  //   senderPhoto: ""
-  // },
-  // {
-  //   username: "Samuel L Jakson",
-  //   content: "shut up  Mothe*****************er ",
-  //   sent: "5 min ago",
-  //   senderPhoto: ""
-  // },
-  // {
-  //   username: "Kevin Hart",
-  //   content: "Oh no, no no no  ",
-  //   sent: "5 min ago",
-  //   senderPhoto: ""
-  // },
-  // {
-  //   username: "Dave Chapelle",
-  //   content: "Yeaah I said it ",
-  //   sent: "5 min ago",
-  //   senderPhoto: ""
-  // },
-  // {
-  //   username: "Arnold SChwarziniger",
-  //   content: "I'm Back",
-  //   sent: "5 min ago",
-  //   senderPhoto: ""
-  // },
-  // {
-  //   username: "Amelia Clark",
-  //   content: "Dracarys ",
-  //   sent: "5 min ago",
-  //   senderPhoto: ""
-  // }
+  changeCurrent(message) {
+    this.currentReceiver = this.receiverId(message);
+    this.getMessages();
+  }
+  getChatroom() {
+    this.http.get(`/groups/${this.currentRoom}`).subscribe(chatroom => {
+      this.messages = chatroom;
+    });
+  }
 
-  latest: any;
+  currentChatroom(chatroom) {
+    this.currentRoom = chatroom._id;
+  }
+
+  getMessages() {
+    this.http
+      .get(`/users/${this.currentReceiver}/messages`)
+      .subscribe(messages => {
+        this.messages = messages;
+        this.changeRender("friends");
+      });
+  }
+  receiverId(message) {
+    return message.sender.username === this.currentUser
+      ? message.receiver._id
+      : message.sender._id;
+  }
+
+  getChatrooms() {
+    this.http.get("/groups").subscribe(data => {
+      this.latestChatrooms = data;
+      this.currentRoom = this.latestChatrooms[0]._id;
+      this.getChatroom();
+      this.changeRender("chatrooms");
+    });
+  }
+  changeRender(str) {
+    this.render = str;
+  }
+  ngOnDestroy(): void {
+    this.latest = null;
+    console.log(this.latest)
+  }
 }

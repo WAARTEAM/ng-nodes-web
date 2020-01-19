@@ -1,3 +1,4 @@
+
 <div *ngIf="status && $user | async as user" style="display: flex; flex-direction:column; height: 600px;" class="card testimonial-card my-4 text-center">
     <!-- Background color -->
     <div style="flex:10;" class="card-up blue-gradient"></div>
@@ -16,13 +17,8 @@
         <p>
             <i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, adipisci
         </p>
-
-
-
-
-
-
-
+      
+      
         <div class="modal fade" id="modelSendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
                 <!--Content-->
@@ -30,7 +26,7 @@
 
                     <!--Header-->
                     <div class="modal-header">
-                        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg" alt="avatar" class="rounded-circle img-responsive">
+      [src]="http.initialsGenerator(user.firstname + ' ' + user.lastname)"
                     </div>
                     <!--Body-->
                     <div class="modal-body text-center mb-1">

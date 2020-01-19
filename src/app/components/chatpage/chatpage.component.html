@@ -1,11 +1,13 @@
-<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3 ">
-    <div class="card-body">
-        <!-- Grid row -->
-        <div class="row px-lg-2 px-2">
-            <!-- Grid column -->
-            <div class="col-md- col-xl-4 px-0">
-                <span style="text-align: center;">
+
+<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
+  <div  class="card-body">
+    <!-- Grid row -->
+    <div class="row px-lg-2 px-2">
+      <!-- Grid column -->
+      <div class="col-md- col-xl-4 px-0">
+        <span style="text-align: center;">
           <button
+            (click)="getMessages()"
             type="button"
             outline="true"
             rounded="true"
@@ -20,20 +22,36 @@
             rounded="true"
             style="border-radius: 20px;margin-top: -20px; "
             class="btn btn-info btn-rounded btn-sm waves-effect waves-light "
+            (click)="getChatrooms()"
           >
             Chatrooms
           </button>
         </span>
-                <div class="white z-depth-1 px-3 pt-3 p-2">
-                    <!-- :========================================= Freinds list ============================================== :-->
-                    <ul style="max-height: 70vh; overflow-y: scroll; " class="list-unstyled friend-list ">
 
+        <div class="white z-depth-1 px-3 pt-3 p-2">
+          <!-- :========================================= Friends list ==============================================-->
+          <ul
+            *ngIf="render === 'friends'"
+            style="height: 70vh; overflow-y: scroll; "
+            class="list-unstyled friend-list "
+          >
+            <li
+              (click)="changeCurrent(message)"
+              *ngFor="let message of latest"
+              class="lighten-3 p-2"
+              [ngClass]="{
+                'active grey': receiverId(message) === currentReceiver
+              }"
+            >
+              <a class="d-flex justify-content-between">
+                <img
+                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                  alt="avatar"
+                  class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
+                />
+                <div class="text-small">
+                  <strong style="float: left;">
 
-                        <li *ngFor="let message of latest" class="active grey lighten-3 p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1" />
-                                <div class="text-small">
-                                    <strong style="float: left;">
                     {{
                       message.sender.username === currentUser
                         ? message.receiver.firstname +
@@ -57,20 +75,71 @@
 
                     </ul>
                 </div>
-            </div>
-            <!-- Grid column -->
 
-            <!-- Grid column -->
-            <div class="col-md-6 col-xl-8 pl-md-3 mt-4 px-lg-auto px-0">
-                <div class="chat-message">
-                    <ul class="list-unstyled chat" style="max-height: 55vh; overflow-y: scroll; margin-top: 0px ">
-                        <!--================================= the Sent message ============================================  -->
-                        <div *ngFor="let message of messages">
-                            <li *ngIf="message.sender.username !== currentUser" class="d-flex justify-content-between mb-4" style="height: 6em ;">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" />
-                                <div class="chat-body white p-3 ml-2 z-depth-1" style="display: flex ; flex-direction: column; justify-content: center; width: 95%; float: left;">
-                                    <div class="header">
-                                        <strong class="primary-font">{{
+              </a>
+            </li>
+          </ul>
+
+          <!-- :========================================= Chats list ==============================================-->
+          <ul
+            *ngIf="render === 'chatrooms'"
+            style="height: 70vh; overflow-y: scroll; "
+            class="list-unstyled friend-list "
+          >
+            <li
+              (click)="currentChatroom(chatroom)"
+              *ngFor="let chatroom of latestChatrooms"
+              class="lighten-3 p-2"
+            >
+              <a class="d-flex justify-content-between">
+                <img
+                [src]="http.initialsGenerator(chatroom.name, 90)"
+                  alt="avatar"
+                  class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
+                />
+                <div class="text-small">
+                  <strong style="float: left;">
+                    {{ chatroom.name }}
+                  </strong>
+                  <br />
+                  <p class="last-message text-muted">hi</p>
+                </div>
+                <div class="chat-footer">
+                  <p class="text-smaller text-muted mb-0">Just now</p>
+                  <span class="badge badge-danger float-right">1</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-6 col-xl-8 pl-md-3 mt-4 px-lg-auto px-0">
+        <div class="chat-message">
+          <ul
+            class="list-unstyled chat"
+            style="height: 55vh; overflow-y: scroll; margin-top: 0px "
+          >
+            <!--================================= the Sent message ============================================  -->
+            <div *ngFor="let message of messages">
+              <li
+                *ngIf="message.sender.username !== currentUser"
+                class="d-flex justify-content-between mb-4"
+                style="height: 6em ;"
+              >
+                <img
+                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
+                  alt="avatar"
+                  class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
+                />
+                <div
+                  class="chat-body white p-3 ml-2 z-depth-1"
+                  style="display: flex ; flex-direction: column; justify-content: center; width: 95%; float: left;"
+                >
+                  <div class="header">
+                    <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
                                         <small class="pull-right text-muted" style="float:right">
@@ -107,7 +176,7 @@
                   </p>
                 </div>
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
                   alt="avatar"
                   class="avatar rounded-circle mr-0 ml-3 z-depth-1"
                 />
