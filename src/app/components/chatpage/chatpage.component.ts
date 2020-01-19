@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http/http.service";
+import { WebsocketService } from '../../services/Websocket/Websocket.service'
+ 
 
 @Component({
   selector: "app-chatpage",
@@ -7,53 +9,75 @@ import { HttpService } from "src/app/services/http/http.service";
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-  constructor(public http: HttpService) {}
+  constructor(public http: HttpService, private websocket :WebsocketService) {}
   currentReceiver: any;
+  currentUserUsername: any;
   currentUser: any;
   currentRoom: any;
   render: String = "friends";
   messages: any;
+  friends: any;
   latest: any;
   latestChatrooms: any;
   chatrooms: any;
+  chatroomName: any;
+  toggle: boolean;
 
   ngOnInit() {
-    this.currentUser = localStorage.getItem("username");
-    this.http.get(`/messages/latest`).subscribe(data => {
-      console.log(data)
-      this.latest = data;
-      this.currentReceiver =
-        this.latest[0].sender.username === this.currentUser
-          ? this.latest[0].receiver._id
-          : this.latest[0].sender._id;
-      this.getMessages();
+    this.currentUserUsername = localStorage.getItem("username");
+    this.http.get(`/users/${this.currentUserUsername}`).subscribe(data => {
+      this.currentUser = data["user"];
+    });
+    this.http.get(`/messages/latest`).subscribe((data: any) => {
+      console.log(data);
+      if (data.length != 0) {
+        this.latest = data;
+        this.currentReceiver =
+          this.latest[0].sender.username === this.currentUserUsername
+            ? this.latest[0].receiver._id
+            : this.latest[0].sender._id;
+        this.getMessages();
+      }
+
     });
   }
   content: String;
 
   sendMessage() {
-    this.http
-      .post(`/users/${this.currentReceiver}/messages`, {
-        content: this.content
-      })
-      .subscribe(data => {
-        //logic of adding the message as a template to the chat
-        this.messages.push(data);
-      });
+    if (this.render === "friends") {
+      this.http
+        .post(`/users/${this.currentReceiver}/messages`, {
+          content: this.content
+        })
+        .subscribe(data => {
+          this.messages.push(data);
+        });
+    } else if (this.render === "chatrooms") {
+      this.http
+        .post(`/groups/${this.currentRoom._id}`, {
+          content: this.content
+        })
+        .subscribe(data => {
+          this.messages.push(data);
+        });
+    }
   }
+
 
   changeCurrent(message) {
     this.currentReceiver = this.receiverId(message);
     this.getMessages();
   }
+
   getChatroom() {
-    this.http.get(`/groups/${this.currentRoom}`).subscribe(chatroom => {
+    this.http.get(`/groups/${this.currentRoom._id}`).subscribe(chatroom => {
       this.messages = chatroom;
     });
   }
 
   currentChatroom(chatroom) {
-    this.currentRoom = chatroom._id;
+    this.currentRoom = chatroom;
+    this.getChatroom();
   }
 
   getMessages() {
@@ -65,7 +89,7 @@ export class ChatpageComponent implements OnInit {
       });
   }
   receiverId(message) {
-    return message.sender.username === this.currentUser
+    return message.sender.username === this.currentUserUsername
       ? message.receiver._id
       : message.sender._id;
   }
@@ -73,7 +97,7 @@ export class ChatpageComponent implements OnInit {
   getChatrooms() {
     this.http.get("/groups").subscribe(data => {
       this.latestChatrooms = data;
-      this.currentRoom = this.latestChatrooms[0]._id;
+      this.currentRoom = this.latestChatrooms[0];
       this.getChatroom();
       this.changeRender("chatrooms");
     });
@@ -83,6 +107,41 @@ export class ChatpageComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.latest = null;
-    console.log(this.latest)
   }
+
+  createChatroom() {
+    this.http
+      .post("/groups", { name: this.chatroomName })
+      .subscribe(chatroom => {
+        this.latestChatrooms.push(chatroom);
+      });
+  }
+  addMember(user) {
+    if (!this.toggle) {
+      this.http
+        .post(`/groups/${this.currentRoom._id}/add`, { user: user._id })
+        .subscribe(data => {
+          if (data["success"]) this.currentRoom.users.push(user);
+        });
+    }
+  }
+  fetchFriends() {
+    this.toggle = false;
+    this.http
+      .get(`/users/${this.currentUser._id}/friends`)
+      .subscribe(friends => {
+        console.log(friends);
+        this.friends = friends;
+      });
+  }
+  leaveChatroom() {
+    this.http.get(`/groups/${this.currentRoom._id}/leave`).subscribe(data => {
+      console.log(data);
+    });
+  }
+  members() {
+    this.toggle = true;
+    this.friends = this.currentRoom.users;
+  }
+
 }

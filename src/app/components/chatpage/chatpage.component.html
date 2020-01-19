@@ -1,6 +1,5 @@
-
-<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
-  <div  class="card-body">
+<div class=" card blue-gradient lighten-3 chat-room mt-3">
+  <div class="card-body">
     <!-- Grid row -->
     <div class="row px-lg-2 px-2">
       <!-- Grid column -->
@@ -14,7 +13,7 @@
             style="border-radius: 20px;margin-top: -20px; "
             class="btn btn-info btn-rounded btn-sm  waves-effect waves-light"
           >
-            Freinds
+            Friends
           </button>
           <button
             type="button"
@@ -51,9 +50,8 @@
                 />
                 <div class="text-small">
                   <strong style="float: left;">
-
                     {{
-                      message.sender.username === currentUser
+                      message.sender.username === currentUserUsername
                         ? message.receiver.firstname +
                           " " +
                           message.receiver.lastname
@@ -78,9 +76,10 @@
 
 
           <!-- :========================================= Chats list ==============================================-->
+
           <ul
             *ngIf="render === 'chatrooms'"
-            style="height: 70vh; overflow-y: scroll; "
+            style="height: 65vh; overflow-y: scroll; "
             class="list-unstyled friend-list "
           >
             <li
@@ -90,7 +89,7 @@
             >
               <a class="d-flex justify-content-between">
                 <img
-                [src]="http.initialsGenerator(chatroom.name, 90)"
+                  [src]="http.initialsGenerator(chatroom.name, 90)"
                   alt="avatar"
                   class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
                 />
@@ -99,7 +98,7 @@
                     {{ chatroom.name }}
                   </strong>
                   <br />
-                  <p class="last-message text-muted">hi</p>
+                  <p class="last-message text-muted"></p>
                 </div>
                 <div class="chat-footer">
                   <p class="text-smaller text-muted mb-0">Just now</p>
@@ -108,12 +107,137 @@
               </a>
             </li>
           </ul>
+<<<<<<< HEAD
           </div>
         </div>
+=======
+
+          <button
+            data-toggle="modal"
+            data-target="#centralModalSm"
+            *ngIf="render === 'chatrooms'"
+            type="button"
+            outline="true"
+            rounded="true"
+            style="border-radius: 20px;margin-top: -5px; "
+            class="btn btn-info btn-rounded btn-sm waves-effect waves-light "
+            (click)="getChatrooms()"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+>>>>>>> 0bbf0490fdf1f28dd4c5c262da50265d4be13583
       <!-- Grid column -->
+      <!-- Central Modal Small -->
+      <div
+        class="modal fade"
+        id="centralModalSm"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+      >
+        <!-- Change class .modal-sm to change the size of the modal -->
+
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4
+                class="modal-title w-100 text-muted align-self-center"
+                style="font-family:sans-serif;"
+                id="myModalLabel"
+              >
+                make chatroom
+              </h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-muted">
+              <input
+                type="text"
+                placeholder="chatroom name"
+                [(ngModel)]="chatroomName"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                (click)="createChatroom()"
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Central Modal Small -->
 
       <!-- Grid column -->
       <div class="col-md-6 col-xl-8 pl-md-3 mt-4 px-lg-auto px-0">
+        <!-- dropdown list -->
+        <div class="dropdown">
+          <!--Trigger-->
+
+          <a
+            type="button"
+            id="dropdownMenu2"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            ><img
+              id="dropdownMenu2"
+              *ngIf="render === 'chatrooms'"
+              width="19px"
+              src="../../../assets/open-menu.png"
+          /></a>
+
+          <!--Menu-->
+          <div
+            *ngIf="currentRoom && currentUser"
+            class="dropdown-menu dropdown-primary"
+          >
+            <a
+              class="dropdown-item"
+              data-toggle="modal"
+              data-target="#modelFriends"
+              (click)="members()"
+            >
+              Members
+            </a>
+            <a
+              *ngIf="currentUser._id === currentRoom.admin"
+              (click)="fetchFriends()"
+              class="dropdown-item"
+              data-toggle="modal"
+              data-target="#modelFriends"
+              >Add member</a
+            >
+            <a class="dropdown-item" (click)="leaveChatroom()"
+              >{{
+                currentUser._id === currentRoom.admin ? "Delete" : "Leave"
+              }}
+              chatroom</a
+            >
+          </div>
+        </div>
+        <!--  -->
+
         <div class="chat-message">
           <ul
             class="list-unstyled chat"
@@ -122,12 +246,17 @@
             <!--================================= the Sent message ============================================  -->
             <div *ngFor="let message of messages">
               <li
-                *ngIf="message.sender.username !== currentUser"
+                *ngIf="message.sender.username !== currentUserUsername"
                 class="d-flex justify-content-between mb-4"
                 style="height: 6em ;"
               >
                 <img
-                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
+                  [src]="
+                    http.initialsGenerator(
+                      message.sender.firstname + ' ' + message.sender.lastname,
+                      200
+                    )
+                  "
                   alt="avatar"
                   class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
                 />
@@ -139,7 +268,7 @@
                     <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
-                                        <small class="pull-right text-muted" style="float:right">
+                    <small class="pull-right text-muted" style="float:right">
                       <i class="far fa-clock"></i> 12 mins ago</small
                     >
                   </div>
@@ -151,7 +280,7 @@
               </li>
               <!-- ============================ The recieved message ============================= -->
               <li
-                *ngIf="message.sender.username === currentUser"
+                *ngIf="message.sender.username === currentUserUsername"
                 class="d-flex justify-content-between mb-4"
                 style="height: 6em;"
               >
@@ -173,7 +302,12 @@
                   </p>
                 </div>
                 <img
-                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
+                  [src]="
+                    http.initialsGenerator(
+                      message.sender.firstname + ' ' + message.sender.lastname,
+                      200
+                    )
+                  "
                   alt="avatar"
                   class="avatar rounded-circle mr-0 ml-3 z-depth-1"
                 />
@@ -207,5 +341,88 @@
       </div>
       <!-- Grid column -->
     </div>
+<<<<<<< HEAD
     <!-- Grid row -->
 </div>
+=======
+  </div>
+
+  <!-- Grid row -->
+</div>
+
+<!-- addMember -->
+
+<div
+  class="modal fade"
+  id="modelFriends"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-notify modal-info w-responsive"
+    role="document"
+  >
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">{{ toggle ? "Members" : "Friends" }} List</p>
+      </div>
+
+      <!--Body-->
+      <div *ngIf="friends" class="modal-body">
+        <div class="text-center">
+          <div>
+            <li
+              (click)="addMember(friend)"
+              *ngFor="let friend of friends"
+              class="d-flex justify-content-between mb-4"
+              style="height: 6em;"
+            >
+              <img
+                src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
+                alt="avatar"
+                class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
+                src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
+              />
+              <div
+                class="chat-body white p-3 ml-2 z-depth-1"
+                style="display: flex ; flex-direction: column; justify-content: center; width: 100%; float: left;"
+              >
+                <div class="header">
+                  <strong
+                    [routerLink]="'/users/' + friend.username"
+                    class="primary-font"
+                    data-dismiss="modal"
+                  >
+                    {{ friend.username }}
+                  </strong>
+                </div>
+
+                <hr class="w-100" style="margin:2px" />
+                <p class="mb-0" style="margin-top:0px;">
+                  {{ friend.firstname + " " + friend.lastname }}
+                </p>
+              </div>
+            </li>
+          </div>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a
+          type="button"
+          class="btn btn-outline-primary waves-effect"
+          data-dismiss="modal"
+          outline="true"
+          >Go Back</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!--  -->
+>>>>>>> 0bbf0490fdf1f28dd4c5c262da50265d4be13583
