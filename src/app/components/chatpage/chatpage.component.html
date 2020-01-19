@@ -1,5 +1,6 @@
-<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3 ">
-  <div class="card-body">
+
+<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
+  <div  class="card-body">
     <!-- Grid row -->
     <div class="row px-lg-2 px-2">
       <!-- Grid column -->
@@ -26,6 +27,7 @@
             Chatrooms
           </button>
         </span>
+
         <div class="white z-depth-1 px-3 pt-3 p-2">
           <!-- :========================================= Friends list ==============================================-->
           <ul
@@ -49,6 +51,7 @@
                 />
                 <div class="text-small">
                   <strong style="float: left;">
+
                     {{
                       message.sender.username === currentUser
                         ? message.receiver.firstname +
@@ -59,13 +62,20 @@
                           message.sender.lastname
                     }}
                   </strong>
-                  <br />
-                  <p class="last-message text-muted">{{ message.content }}</p>
+                                    <br />
+                                    <p class="last-message text-muted">{{ message.content }}</p>
+                                </div>
+                                <div class="chat-footer">
+                                    <p class="text-smaller text-muted mb-0">Just now</p>
+                                    <span class="badge badge-danger float-right">1</span>
+                                </div>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </div>
-                <div class="chat-footer">
-                  <p class="text-smaller text-muted mb-0">Just now</p>
-                  <span class="badge badge-danger float-right">1</span>
-                </div>
+
               </a>
             </li>
           </ul>
@@ -83,7 +93,7 @@
             >
               <a class="d-flex justify-content-between">
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                [src]="http.initialsGenerator(chatroom.name, 90)"
                   alt="avatar"
                   class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
                 />
@@ -120,10 +130,9 @@
                 style="height: 6em ;"
               >
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
+                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
                   alt="avatar"
                   class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
                 />
                 <div
                   class="chat-body white p-3 ml-2 z-depth-1"
@@ -133,7 +142,7 @@
                     <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
-                    <small class="pull-right text-muted" style="float:right">
+                                        <small class="pull-right text-muted" style="float:right">
                       <i class="far fa-clock"></i> 12 mins ago</small
                     >
                   </div>
@@ -167,7 +176,7 @@
                   </p>
                 </div>
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
                   alt="avatar"
                   class="avatar rounded-circle mr-0 ml-3 z-depth-1"
                 />
