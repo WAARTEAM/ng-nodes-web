@@ -7,7 +7,7 @@ import { HttpService } from "src/app/services/http/http.service";
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-  constructor(private http: HttpService) {}
+  constructor(public http: HttpService) {}
   currentReceiver: any;
   currentUser: any;
   currentRoom: any;
@@ -20,6 +20,7 @@ export class ChatpageComponent implements OnInit {
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
     this.http.get(`/messages/latest`).subscribe(data => {
+      console.log(data)
       this.latest = data;
       this.currentReceiver =
         this.latest[0].sender.username === this.currentUser
@@ -83,5 +84,6 @@ export class ChatpageComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.latest = null;
+    console.log(this.latest)
   }
 }
