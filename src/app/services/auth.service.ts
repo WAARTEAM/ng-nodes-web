@@ -33,7 +33,6 @@ export class AuthService {
     return !!localStorage.getItem("id_token");
   }
   logout() {
-    console.log("hello");
     localStorage.clear();
     this.router.navigate([""]);
     this.isAuthenticated.next(false);
