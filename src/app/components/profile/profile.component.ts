@@ -15,13 +15,17 @@ export class ProfileComponent implements OnInit {
   status: String = "";
   $user: Observable<any>;
   constructor(
-    private http: HttpService,
+    public http: HttpService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {}
+
   id: any;
+  friends:Array<any>;
+  isRequest:boolean;
 
   ngOnInit() {
+    
     this.activatedRoute.params.subscribe(param => {
       this.profile = !param.username;
       if (this.profile)
@@ -35,7 +39,6 @@ export class ProfileComponent implements OnInit {
       }
       this.$user.subscribe(user => {
         this.id = user._id;
-        console.log(user);
         if (user.areFriends) this.status = "Remove friend";
         else if (user.sentRequest) this.status = "Remove friend request";
         else if (user.gotrequest) this.status = "Accept friend request";
@@ -63,4 +66,49 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
+
+  sendMessage(value){
+    this.http
+      .post(`/users/${this.id}/messages`, {
+        content: value
+      }).subscribe(data => {
+       }); 
+  }
+
+
+  getAllFreinds(){
+    this.friends = null;
+      this.isRequest = false;
+    this.http
+      .get(`/friends`).subscribe((data:Array<Object>) => {
+         //logic of adding the message as a template to the chat
+         this.friends = data;
+       }); 
+  }
+  
+  getAllRequests(){
+    this.friends = null;
+    this.isRequest = true;
+    this.http
+      .get(`/requests`).subscribe((data:Array<Object>) => {
+         //logic of adding the message as a template to the cha
+        //  console.log(data)
+        this.friends = data.map(one => one["sender"]);
+       }); 
+  }
+
+  acceptFriendRequest(id){
+    this.http.get(`/users/${id}/acceptrequest`).subscribe( (data:Array<Object>) => {
+      if (data["success"]){
+       this.friends = this.friends.filter( item => item["_id"] !== id);
+
+       console.log(this.friends);
+      } 
+   });
+  }
+
 }
+
+// this.friends.filter( item => item["_id"].toString() !== id.toString );
+
+ 

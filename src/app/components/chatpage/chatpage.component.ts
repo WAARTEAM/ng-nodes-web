@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http/http.service";
+import { WebsocketService } from '../../services/Websocket/Websocket.service'
+ 
 
 @Component({
   selector: "app-chatpage",
@@ -7,7 +9,7 @@ import { HttpService } from "src/app/services/http/http.service";
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-  constructor(private http: HttpService) {}
+  constructor(public http: HttpService, private websocket :WebsocketService) {}
   currentReceiver: any;
   currentUser: any;
   currentRoom: any;
@@ -20,11 +22,22 @@ export class ChatpageComponent implements OnInit {
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
     this.http.get(`/messages/latest`).subscribe(data => {
+      console.log(data)
       this.latest = data;
       this.currentReceiver =
         this.latest[0].sender.username === this.currentUser
           ? this.latest[0].receiver._id
           : this.latest[0].sender._id;
+          // how to use socket service 
+          // getting data from the server 
+          //this.websocket.listen("message").subscribe((data)=>{
+          //   console.log(data)
+          // })
+
+           // how to use socket service 
+          // posting data from the server 
+          //this.websocket.emit("message",data)
+          // })
      
     });
   }
@@ -38,9 +51,7 @@ export class ChatpageComponent implements OnInit {
       .subscribe(data => {
         //logic of adding the message as a template to the chat
         this.messages.push(data);
-        console.log(this.messages);
       });
   }
-
 
 }
