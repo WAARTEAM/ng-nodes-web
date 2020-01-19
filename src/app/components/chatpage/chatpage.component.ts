@@ -16,6 +16,7 @@ export class ChatpageComponent implements OnInit {
   latest: any;
   latestChatrooms: any;
   chatrooms: any;
+  chatroomName: any;
 
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
@@ -83,5 +84,13 @@ export class ChatpageComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.latest = null;
+  }
+
+  createChatroom() {
+    this.http
+      .post("/groups", { name: this.chatroomName })
+      .subscribe(chatroom => {
+        this.chatrooms = chatroom;
+      });
   }
 }
