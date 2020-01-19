@@ -11,7 +11,7 @@ import { Subject, Subscription, Observable } from 'rxjs';
 })
 export class SearchAreaComponent implements OnInit {
 
-  constructor(private authService : AuthService, private http : HttpService) { }
+  constructor(private authService : AuthService, public http : HttpService) { }
   searchValSubject:Subscription;
   $users:Observable<any>;
   getUsers(keyword){

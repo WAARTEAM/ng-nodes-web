@@ -83,7 +83,7 @@
             >
               <a class="d-flex justify-content-between">
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                [src]="http.initialsGenerator(chatroom.name, 90)"
                   alt="avatar"
                   class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
                 />
@@ -120,10 +120,9 @@
                 style="height: 6em ;"
               >
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
+                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
                   alt="avatar"
                   class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
                 />
                 <div
                   class="chat-body white p-3 ml-2 z-depth-1"
@@ -167,7 +166,7 @@
                   </p>
                 </div>
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
                   alt="avatar"
                   class="avatar rounded-circle mr-0 ml-3 z-depth-1"
                 />

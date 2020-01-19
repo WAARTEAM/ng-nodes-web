@@ -15,13 +15,14 @@ export class ProfileComponent implements OnInit {
   status: String = "";
   $user: Observable<any>;
   constructor(
-    private http: HttpService,
+    public http: HttpService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {}
   id: any;
 
   ngOnInit() {
+    
     this.activatedRoute.params.subscribe(param => {
       this.profile = !param.username;
       if (this.profile)

@@ -10,7 +10,7 @@
   <!-- Avatar -->
   <div style="margin-top: -125px; border-radius: 200px;" class="mx-auto white">
     <img
-      src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg"
+      [src]="http.initialsGenerator(user.firstname + ' ' + user.lastname)"
       class="rounded-circle"
       alt="woman avatar"
     />

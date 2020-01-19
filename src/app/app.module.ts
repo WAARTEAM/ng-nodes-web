@@ -16,7 +16,8 @@ import { ChatpageComponent } from "./components/chatpage/chatpage.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from './guards/auth.guard';
 import {NotAuthGuard} from './guards/notauth.guard';
-import { SearchAreaComponent } from './components/search-area/search-area.component'
+import { SearchAreaComponent } from './components/search-area/search-area.component';
+import { SettingsComponent } from './components/settings/settings.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SearchAreaComponent } from './components/search-area/search-area.compon
     SignupComponent,
     ProfileComponent,
     ChatpageComponent,
-    SearchAreaComponent
+    SearchAreaComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

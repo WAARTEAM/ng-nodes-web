@@ -17,10 +17,16 @@
                 Profile
               </a>
           </li>
+          <li *ngIf="isAuthenticated" class="nav-item active" [routerLinkActive]="['active']">
+  
+            <a class="nav-link" routerLink="info" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+              Info
+            </a>
+        </li>
         </ul>
         <ul class="ml-auto navbar-nav">
 
-          <div  class="form-inline">
+          <div *ngIf="isAuthenticated" class="form-inline">
             <div class="md-form my-0">
               <input style="color: white;" [(ngModel)]="inputVal" class="form-control" type="text" placeholder="Search" aria-label="Search">
             </div>
