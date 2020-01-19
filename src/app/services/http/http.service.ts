@@ -7,8 +7,10 @@ import { HttpClient } from "@angular/common/http";
 export class HttpService {
   token = localStorage.getItem("id_token");
   headers = { Authorization: this.token };
+
   prod = "http://waar-nodes.herokuapp.com/api";
   dev = "http://127.0.0.1:7000/api";
+
   constructor(private http: HttpClient) {}
   initialsGenerator(name, size = 250) {
     return `https://ui-avatars.com/api/?size=${size}&name=${name}&background=0fabcd&color=fff`;
@@ -33,5 +35,6 @@ export class HttpService {
     return this.http.delete(this.prod + route, {
       headers: this.token ? this.headers : null
     });
+
   }
 }

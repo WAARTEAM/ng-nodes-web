@@ -15,9 +15,14 @@ export class AuthService {
   constructor(private http: HttpService, private router: Router) {}
   registerUser(user) {
     return this.http.post("/users", user);
+    // .subscribe(data => console.log(data));
+    // .pipe(map((response: any) => response.json()))
   }
   authenticateUser(user) {
-    return this.http.post("/users/authenticate", user);
+    return this.http.post(
+      "/users/authenticate",
+      user
+    );
   }
 
   storeUserData(token, user) {

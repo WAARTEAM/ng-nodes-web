@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http/http.service";
+import { WebsocketService } from '../../services/Websocket/Websocket.service'
+ 
 
 @Component({
   selector: "app-chatpage",
@@ -7,7 +9,7 @@ import { HttpService } from "src/app/services/http/http.service";
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-  constructor(public http: HttpService) {}
+  constructor(public http: HttpService, private websocket :WebsocketService) {}
   currentReceiver: any;
   currentUserUsername: any;
   currentUser: any;
@@ -36,6 +38,7 @@ export class ChatpageComponent implements OnInit {
             : this.latest[0].sender._id;
         this.getMessages();
       }
+
     });
   }
   content: String;
@@ -59,6 +62,7 @@ export class ChatpageComponent implements OnInit {
         });
     }
   }
+
 
   changeCurrent(message) {
     this.currentReceiver = this.receiverId(message);
@@ -139,4 +143,5 @@ export class ChatpageComponent implements OnInit {
     this.toggle = true;
     this.friends = this.currentRoom.users;
   }
+
 }
