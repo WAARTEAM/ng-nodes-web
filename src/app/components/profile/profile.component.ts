@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  sendMessage(value){
+  sendMessage(value:String){
     this.http
       .post(`/users/${this.id}/messages`, {
         content: value
@@ -77,13 +77,16 @@ export class ProfileComponent implements OnInit {
 
 
   getAllFreinds(){
+
     this.friends = null;
-      this.isRequest = false;
+    this.isRequest = false;
+
     this.http
-      .get(`/friends`).subscribe((data:Array<Object>) => {
+      .get( `/users/${this.id}/friends` ).subscribe((data:Array<Object>) => {
          //logic of adding the message as a template to the chat
          this.friends = data;
        }); 
+
   }
   
   getAllRequests(){
@@ -97,16 +100,13 @@ export class ProfileComponent implements OnInit {
        }); 
   }
 
-  acceptFriendRequest(id){
-    this.http.get(`/users/${id}/acceptrequest`).subscribe( (data:Array<Object>) => {
+  acceptFriendRequest(id:String){
+    this.http.get(`/users/${id}/acceptrequest`).subscribe((data:Array<Object>) => {
       if (data["success"]){
        this.friends = this.friends.filter( item => item["_id"] !== id);
-
-       console.log(this.friends);
       } 
    });
   }
-
 }
 
 // this.friends.filter( item => item["_id"].toString() !== id.toString );
