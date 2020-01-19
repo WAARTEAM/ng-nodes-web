@@ -1,55 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { HttpService } from "src/app/services/http/http.service";
+import { WebsocketService } from '../../services/Websocket/Websocket.service'
+ 
 
 @Component({
-  selector: 'app-chatpage',
-  templateUrl: './chatpage.component.html',
-  styleUrls: ['./chatpage.component.scss']
+  selector: "app-chatpage",
+  templateUrl: "./chatpage.component.html",
+  styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-
-  constructor() { }
+  constructor(public http: HttpService, private websocket :WebsocketService) {}
+  currentReceiver: any;
+  currentUser: any;
+  currentRoom: any;
+  render: String = "friends";
+  messages: any;
+  latest: any;
+  latestChatrooms: any;
+  chatrooms: any;
 
   ngOnInit() {
+    this.currentUser = localStorage.getItem("username");
+    this.http.get(`/messages/latest`).subscribe(data => {
+      console.log(data)
+      this.latest = data;
+      this.currentReceiver =
+        this.latest[0].sender.username === this.currentUser
+          ? this.latest[0].receiver._id
+          : this.latest[0].sender._id;
+          // how to use socket service 
+          // getting data from the server 
+          //this.websocket.listen("message").subscribe((data)=>{
+          //   console.log(data)
+          // })
+
+           // how to use socket service 
+          // posting data from the server 
+          //this.websocket.emit("message",data)
+          // })
+     
+    });
   }
-  messages = [
-    {
-      username:"Mathew MacConhey",
-      content: "all right all right all right ",
-      sent:"5 min ago",
-      senderPhoto:""
-    },
-    {
-      username:"Samuel L Jakson",
-      content: "shut up  Mothe*****************er ",
-      sent:"5 min ago",
-      senderPhoto:""
-    },
+  content: String;
 
-    {
-      username:"Kevin Hart",
-      content: "Oh no, no no no  ",
-      sent:"5 min ago",
-      senderPhoto:""
-    },
-
-    {
-      username:"Dave Chapelle",
-      content: "Yeaah I said it ",
-      sent:"5 min ago",
-      senderPhoto:""
-    },
-    {
-      username:"Arnold SChwarziniger",
-      content: "I'm Back",
-      sent:"5 min ago",
-      senderPhoto:""
-    },
-    {
-      username:"Amelia Clark",
-      content: "Dracarys ",
-      sent:"5 min ago",
-      senderPhoto:""
-    }
- ]
+  sendMessage() {
+    this.http
+      .post(`/users/${this.currentReceiver}/messages`, {
+        content: this.content
+      })
+      .subscribe(data => {
+        //logic of adding the message as a template to the chat
+        this.messages.push(data);
+      });
+  }
 
 }

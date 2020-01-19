@@ -3,19 +3,17 @@ import {Router,CanActivate} from '@angular/router'
 import {AuthService} from '../services/auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-    constructor(private authService:AuthService,private router:Router){
+export class NotAuthGuard implements CanActivate {
+  constructor(private authService:AuthService,private router:Router){
 
-    }
-
-canActivate(){
-    
+  }
+  canActivate(){
     if(this.authService.isLoggedIn()){
-        return true;
+      this.router.navigate(['chatroom']);
     }else{
-        this.router.navigate(['']);
+      return true;
     }
-}
+  }
 
 
 }
