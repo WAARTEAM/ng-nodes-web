@@ -26,7 +26,12 @@
 
                     <!--Header-->
                     <div class="modal-header">
-      [src]="http.initialsGenerator(user.firstname + ' ' + user.lastname)"
+                        <img
+                         [src]="http.initialsGenerator(user.firstname + ' ' + user.lastname)"
+                         alt="avatar"
+                         class="rounded-circle"
+                         />
+      
                     </div>
                     <!--Body-->
                     <div class="modal-body text-center mb-1">
