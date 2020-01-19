@@ -1,24 +1,26 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { Router } from "@angular/router";
+import { HttpService } from './http/http.service';
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   authToken: any;
   user: any;
+  searchVal = "";
+  searchValSubject: Subject<String> = new Subject()
   isAuthenticated: Subject<boolean> = new Subject();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpService, private router: Router) {}
   registerUser(user) {
-    return this.http.post("http://waar-nodes.herokuapp.com/api/users", user);
+    return this.http.post("/users", user);
     // .subscribe(data => console.log(data));
     // .pipe(map((response: any) => response.json()))
   }
   authenticateUser(user) {
     return this.http.post(
-      "http://waar-nodes.herokuapp.com/api/users/authenticate",
+      "/users/authenticate",
       user
     );
   }
