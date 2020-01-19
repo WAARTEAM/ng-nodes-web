@@ -12,13 +12,13 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
   registerUser(user) {
-    return this.http.post("http://waar-nodes.herokuapp.com/api/users", user);
+    return this.http.post("http://localhost:7000/api/users", user);
     // .subscribe(data => console.log(data));
     // .pipe(map((response: any) => response.json()))
   }
   authenticateUser(user) {
     return this.http.post(
-      "http://waar-nodes.herokuapp.com/api/users/authenticate",
+      "http://localhost:7000/api/users/authenticate",
       user
     );
   }

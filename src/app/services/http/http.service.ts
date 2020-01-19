@@ -6,7 +6,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class HttpService {
   headers = { Authorization: localStorage.getItem("id_token") };
-  prod = "http://waar-nodes.herokuapp.com/api";
+  prod = "http://localhost:7000/api";
   constructor(private http: HttpClient) {}
   get(route, query = "") {
     return this.http.get(this.prod + route + query, { headers: this.headers });
