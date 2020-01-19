@@ -1,14 +1,16 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
+import { Router } from "@angular/router";
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   authToken: any;
   user: any;
-  isAuthenticated:Subject<boolean> = new Subject();
-  constructor(private http: HttpClient) {}
+  isAuthenticated: Subject<boolean> = new Subject();
+
+  constructor(private http: HttpClient, private router: Router) {}
   registerUser(user) {
     return this.http.post("http://waar-nodes.herokuapp.com/api/users", user);
     // .subscribe(data => console.log(data));
@@ -23,23 +25,22 @@ export class AuthService {
 
   storeUserData(token, user) {
     localStorage.setItem("id_token", token);
-    localStorage.setItem("user", user["username"]);
+    localStorage.setItem("username", user["username"]);
     this.authToken = token;
     this.user = user;
   }
-  isLoggedIn(){
+  isLoggedIn() {
     return !!localStorage.getItem("id_token");
   }
-  logout(){
-    this.authToken = null;
-    this.user = null;
+  logout() {
     localStorage.clear();
+    this.router.navigate([""]);
+    this.isAuthenticated.next(false);
   }
-  getToken (){
-    return localStorage.getItem("id_token")
+  getToken() {
+    return localStorage.getItem("id_token");
   }
-
-
-
-
+  getUsername() {
+    return localStorage.getItem("username");
+  }
 }
