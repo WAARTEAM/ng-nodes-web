@@ -9,22 +9,27 @@ import { HttpService } from "src/app/services/http/http.service";
 export class ChatpageComponent implements OnInit {
   constructor(public http: HttpService) {}
   currentReceiver: any;
+  currentUserUsername: any;
   currentUser: any;
   currentRoom: any;
   render: String = "friends";
   messages: any;
+  friends: any;
   latest: any;
   latestChatrooms: any;
   chatrooms: any;
   chatroomName: any;
 
   ngOnInit() {
-    this.currentUser = localStorage.getItem("username");
+    this.currentUserUsername = localStorage.getItem("username");
+    this.http.get(`/users/${this.currentUserUsername}`).subscribe(data => {
+      this.currentUser = data["user"];
+    });
     this.http.get(`/messages/latest`).subscribe(data => {
       console.log(data);
       this.latest = data;
       this.currentReceiver =
-        this.latest[0].sender.username === this.currentUser
+        this.latest[0].sender.username === this.currentUserUsername
           ? this.latest[0].receiver._id
           : this.latest[0].sender._id;
       this.getMessages();
@@ -77,7 +82,7 @@ export class ChatpageComponent implements OnInit {
       });
   }
   receiverId(message) {
-    return message.sender.username === this.currentUser
+    return message.sender.username === this.currentUserUsername
       ? message.receiver._id
       : message.sender._id;
   }
@@ -102,6 +107,21 @@ export class ChatpageComponent implements OnInit {
       .post("/groups", { name: this.chatroomName })
       .subscribe(chatroom => {
         this.latestChatrooms.push(chatroom);
+      });
+  }
+  addMember(id) {
+    this.http
+      .post(`/groups/${this.currentRoom}/add`, { user: id })
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+  fetchFriends() {
+    this.http
+      .get(`/users/${this.currentUser._id}/friends`)
+      .subscribe(friends => {
+        console.log(friends);
+        this.friends = friends;
       });
   }
 }
