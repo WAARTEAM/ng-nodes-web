@@ -17,6 +17,22 @@
                 Profile
               </a>
           </li>
+          <li *ngIf="isAuthenticated" class="nav-item active" [routerLinkActive]="['active']">
+  
+            <a class="nav-link" routerLink="info" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+              Info
+            </a>
+        </li>
+        </ul>
+        <ul class="ml-auto navbar-nav">
+
+          <div *ngIf="isAuthenticated" class="form-inline">
+            <div class="md-form my-0">
+              <input style="color: white;" [(ngModel)]="inputVal" class="form-control" type="text" placeholder="Search" aria-label="Search">
+            </div>
+            <button (click)="assignVal()" class="btn btn-outline-white btn-md my-0 ml-sm-2" type="submit">Search</button>
+          </div>
+      
         </ul>
         <ul class="navbar-nav ml-auto">
 
