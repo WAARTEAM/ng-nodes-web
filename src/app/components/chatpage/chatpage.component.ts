@@ -19,20 +19,23 @@ export class ChatpageComponent implements OnInit {
   latestChatrooms: any;
   chatrooms: any;
   chatroomName: any;
+  toggle: boolean;
 
   ngOnInit() {
     this.currentUserUsername = localStorage.getItem("username");
     this.http.get(`/users/${this.currentUserUsername}`).subscribe(data => {
       this.currentUser = data["user"];
     });
-    this.http.get(`/messages/latest`).subscribe(data => {
+    this.http.get(`/messages/latest`).subscribe((data: any) => {
       console.log(data);
-      this.latest = data;
-      this.currentReceiver =
-        this.latest[0].sender.username === this.currentUserUsername
-          ? this.latest[0].receiver._id
-          : this.latest[0].sender._id;
-      this.getMessages();
+      if (data.length != 0) {
+        this.latest = data;
+        this.currentReceiver =
+          this.latest[0].sender.username === this.currentUserUsername
+            ? this.latest[0].receiver._id
+            : this.latest[0].sender._id;
+        this.getMessages();
+      }
     });
   }
   content: String;
@@ -48,7 +51,7 @@ export class ChatpageComponent implements OnInit {
         });
     } else if (this.render === "chatrooms") {
       this.http
-        .post(`/groups/${this.currentRoom}`, {
+        .post(`/groups/${this.currentRoom._id}`, {
           content: this.content
         })
         .subscribe(data => {
@@ -63,13 +66,13 @@ export class ChatpageComponent implements OnInit {
   }
 
   getChatroom() {
-    this.http.get(`/groups/${this.currentRoom}`).subscribe(chatroom => {
+    this.http.get(`/groups/${this.currentRoom._id}`).subscribe(chatroom => {
       this.messages = chatroom;
     });
   }
 
   currentChatroom(chatroom) {
-    this.currentRoom = chatroom._id;
+    this.currentRoom = chatroom;
     this.getChatroom();
   }
 
@@ -90,7 +93,7 @@ export class ChatpageComponent implements OnInit {
   getChatrooms() {
     this.http.get("/groups").subscribe(data => {
       this.latestChatrooms = data;
-      this.currentRoom = this.latestChatrooms[0]._id;
+      this.currentRoom = this.latestChatrooms[0];
       this.getChatroom();
       this.changeRender("chatrooms");
     });
@@ -109,19 +112,31 @@ export class ChatpageComponent implements OnInit {
         this.latestChatrooms.push(chatroom);
       });
   }
-  addMember(id) {
-    this.http
-      .post(`/groups/${this.currentRoom}/add`, { user: id })
-      .subscribe(data => {
-        console.log(data);
-      });
+  addMember(user) {
+    if (!this.toggle) {
+      this.http
+        .post(`/groups/${this.currentRoom._id}/add`, { user: user._id })
+        .subscribe(data => {
+          if (data["success"]) this.currentRoom.users.push(user);
+        });
+    }
   }
   fetchFriends() {
+    this.toggle = false;
     this.http
       .get(`/users/${this.currentUser._id}/friends`)
       .subscribe(friends => {
         console.log(friends);
         this.friends = friends;
       });
+  }
+  leaveChatroom() {
+    this.http.get(`/groups/${this.currentRoom._id}/leave`).subscribe(data => {
+      console.log(data);
+    });
+  }
+  members() {
+    this.toggle = true;
+    this.friends = this.currentRoom.users;
   }
 }

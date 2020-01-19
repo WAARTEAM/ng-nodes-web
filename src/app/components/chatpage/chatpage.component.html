@@ -1,4 +1,4 @@
-<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
+<div class=" card blue-gradient lighten-3 chat-room mt-3">
   <div class="card-body">
     <!-- Grid row -->
     <div class="row px-lg-2 px-2">
@@ -13,7 +13,7 @@
             style="border-radius: 20px;margin-top: -20px; "
             class="btn btn-info btn-rounded btn-sm  waves-effect waves-light"
           >
-            Freinds
+            Friends
           </button>
           <button
             type="button"
@@ -199,15 +199,32 @@
           /></a>
 
           <!--Menu-->
-          <div class="dropdown-menu dropdown-primary">
+          <div
+            *ngIf="currentRoom && currentUser"
+            class="dropdown-menu dropdown-primary"
+          >
             <a
+              class="dropdown-item"
+              data-toggle="modal"
+              data-target="#modelFriends"
+              (click)="members()"
+            >
+              Members
+            </a>
+            <a
+              *ngIf="currentUser._id === currentRoom.admin"
               (click)="fetchFriends()"
               class="dropdown-item"
               data-toggle="modal"
               data-target="#modelFriends"
               >Add member</a
             >
-            <a class="dropdown-item">Leave chatroom</a>
+            <a class="dropdown-item" (click)="leaveChatroom()"
+              >{{
+                currentUser._id === currentRoom.admin ? "Delete" : "Leave"
+              }}
+              chatroom</a
+            >
           </div>
         </div>
         <!--  -->
@@ -337,7 +354,7 @@
     <div class="modal-content">
       <!--Header-->
       <div class="modal-header">
-        <p class="heading lead">Freinds List</p>
+        <p class="heading lead">{{ toggle ? "Members" : "Friends" }} List</p>
       </div>
 
       <!--Body-->
@@ -345,7 +362,7 @@
         <div class="text-center">
           <div>
             <li
-              (click)="addMember(friend._id)"
+              (click)="addMember(friend)"
               *ngFor="let friend of friends"
               class="d-flex justify-content-between mb-4"
               style="height: 6em;"
