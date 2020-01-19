@@ -1,6 +1,5 @@
-
 <div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
-  <div  class="card-body">
+  <div class="card-body">
     <!-- Grid row -->
     <div class="row px-lg-2 px-2">
       <!-- Grid column -->
@@ -51,7 +50,6 @@
                 />
                 <div class="text-small">
                   <strong style="float: left;">
-
                     {{
                       message.sender.username === currentUser
                         ? message.receiver.firstname +
@@ -62,28 +60,22 @@
                           message.sender.lastname
                     }}
                   </strong>
-                                    <br />
-                                    <p class="last-message text-muted">{{ message.content }}</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Just now</p>
-                                    <span class="badge badge-danger float-right">1</span>
-                                </div>
-                            </a>
-                        </li>
-
-
-                    </ul>
+                  <br />
+                  <p class="last-message text-muted">{{ message.content }}</p>
                 </div>
-
+                <div class="chat-footer">
+                  <p class="text-smaller text-muted mb-0">Just now</p>
+                  <span class="badge badge-danger float-right">1</span>
+                </div>
               </a>
             </li>
           </ul>
 
           <!-- :========================================= Chats list ==============================================-->
+
           <ul
             *ngIf="render === 'chatrooms'"
-            style="height: 70vh; overflow-y: scroll; "
+            style="height: 65vh; overflow-y: scroll; "
             class="list-unstyled friend-list "
           >
             <li
@@ -93,7 +85,7 @@
             >
               <a class="d-flex justify-content-between">
                 <img
-                [src]="http.initialsGenerator(chatroom.name, 90)"
+                  [src]="http.initialsGenerator(chatroom.name, 90)"
                   alt="avatar"
                   class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
                 />
@@ -102,7 +94,7 @@
                     {{ chatroom.name }}
                   </strong>
                   <br />
-                  <p class="last-message text-muted">hi</p>
+                  <p class="last-message text-muted"></p>
                 </div>
                 <div class="chat-footer">
                   <p class="text-smaller text-muted mb-0">Just now</p>
@@ -111,9 +103,81 @@
               </a>
             </li>
           </ul>
+
+          <button
+            data-toggle="modal"
+            data-target="#centralModalSm"
+            *ngIf="render === 'chatrooms'"
+            type="button"
+            outline="true"
+            rounded="true"
+            style="border-radius: 20px;margin-top: -5px; "
+            class="btn btn-info btn-rounded btn-sm waves-effect waves-light "
+            (click)="getChatrooms()"
+          >
+            +
+          </button>
         </div>
       </div>
+
       <!-- Grid column -->
+      <!-- Central Modal Small -->
+      <div
+        class="modal fade"
+        id="centralModalSm"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+      >
+        <!-- Change class .modal-sm to change the size of the modal -->
+
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4
+                class="modal-title w-100 text-muted align-self-center"
+                style="font-family:sans-serif;"
+                id="myModalLabel"
+              >
+                make chatroom
+              </h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-muted">
+              <input
+                type="text"
+                placeholder="chatroom name"
+                [(ngModel)]="chatroomName"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                (click)="createChatroom()"
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Central Modal Small -->
 
       <!-- Grid column -->
       <div class="col-md-6 col-xl-8 pl-md-3 mt-4 px-lg-auto px-0">
@@ -130,7 +194,12 @@
                 style="height: 6em ;"
               >
                 <img
-                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
+                  [src]="
+                    http.initialsGenerator(
+                      message.sender.firstname + ' ' + message.sender.lastname,
+                      200
+                    )
+                  "
                   alt="avatar"
                   class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
                 />
@@ -142,7 +211,7 @@
                     <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
-                                        <small class="pull-right text-muted" style="float:right">
+                    <small class="pull-right text-muted" style="float:right">
                       <i class="far fa-clock"></i> 12 mins ago</small
                     >
                   </div>
@@ -176,7 +245,12 @@
                   </p>
                 </div>
                 <img
-                [src]="http.initialsGenerator(message.sender.firstname + ' ' + message.sender.lastname, 200)"
+                  [src]="
+                    http.initialsGenerator(
+                      message.sender.firstname + ' ' + message.sender.lastname,
+                      200
+                    )
+                  "
                   alt="avatar"
                   class="avatar rounded-circle mr-0 ml-3 z-depth-1"
                 />
@@ -209,6 +283,7 @@
       </div>
       <!-- Grid column -->
     </div>
-    <!-- Grid row -->
   </div>
+
+  <!-- Grid row -->
 </div>

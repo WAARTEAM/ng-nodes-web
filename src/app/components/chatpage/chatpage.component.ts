@@ -21,7 +21,7 @@ export class ChatpageComponent implements OnInit {
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
     this.http.get(`/messages/latest`).subscribe(data => {
-      console.log(data)
+      console.log(data);
       this.latest = data;
       this.currentReceiver =
         this.latest[0].sender.username === this.currentUser
@@ -33,20 +33,30 @@ export class ChatpageComponent implements OnInit {
   content: String;
 
   sendMessage() {
-    this.http
-      .post(`/users/${this.currentReceiver}/messages`, {
-        content: this.content
-      })
-      .subscribe(data => {
-        //logic of adding the message as a template to the chat
-        this.messages.push(data);
-      });
+    if (this.render === "friends") {
+      this.http
+        .post(`/users/${this.currentReceiver}/messages`, {
+          content: this.content
+        })
+        .subscribe(data => {
+          this.messages.push(data);
+        });
+    } else if (this.render === "chatrooms") {
+      this.http
+        .post(`/groups/${this.currentRoom}`, {
+          content: this.content
+        })
+        .subscribe(data => {
+          this.messages.push(data);
+        });
+    }
   }
 
   changeCurrent(message) {
     this.currentReceiver = this.receiverId(message);
     this.getMessages();
   }
+
   getChatroom() {
     this.http.get(`/groups/${this.currentRoom}`).subscribe(chatroom => {
       this.messages = chatroom;
@@ -55,6 +65,7 @@ export class ChatpageComponent implements OnInit {
 
   currentChatroom(chatroom) {
     this.currentRoom = chatroom._id;
+    this.getChatroom();
   }
 
   getMessages() {
@@ -84,14 +95,13 @@ export class ChatpageComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.latest = null;
-    console.log(this.latest)
   }
 
   createChatroom() {
     this.http
       .post("/groups", { name: this.chatroomName })
       .subscribe(chatroom => {
-        this.chatrooms = chatroom;
+        this.latestChatrooms.push(chatroom);
       });
   }
 }
