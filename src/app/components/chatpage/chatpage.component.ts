@@ -39,7 +39,6 @@ export class ChatpageComponent implements OnInit {
       .subscribe(data => {
         //logic of adding the message as a template to the chat
         this.messages.push(data);
-        console.log(this.messages);
       });
   }
 

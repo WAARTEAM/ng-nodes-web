@@ -1,3 +1,4 @@
+
 <div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
   <div  class="card-body">
     <!-- Grid row -->
@@ -26,6 +27,7 @@
             Chatrooms
           </button>
         </span>
+
         <div class="white z-depth-1 px-3 pt-3 p-2">
           <!-- :========================================= Friends list ==============================================-->
           <ul
@@ -49,6 +51,7 @@
                 />
                 <div class="text-small">
                   <strong style="float: left;">
+
                     {{
                       message.sender.username === currentUser
                         ? message.receiver.firstname +
@@ -59,13 +62,20 @@
                           message.sender.lastname
                     }}
                   </strong>
-                  <br />
-                  <p class="last-message text-muted">{{ message.content }}</p>
+                                    <br />
+                                    <p class="last-message text-muted">{{ message.content }}</p>
+                                </div>
+                                <div class="chat-footer">
+                                    <p class="text-smaller text-muted mb-0">Just now</p>
+                                    <span class="badge badge-danger float-right">1</span>
+                                </div>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </div>
-                <div class="chat-footer">
-                  <p class="text-smaller text-muted mb-0">Just now</p>
-                  <span class="badge badge-danger float-right">1</span>
-                </div>
+
               </a>
             </li>
           </ul>
@@ -132,7 +142,7 @@
                     <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
-                    <small class="pull-right text-muted" style="float:right">
+                                        <small class="pull-right text-muted" style="float:right">
                       <i class="far fa-clock"></i> 12 mins ago</small
                     >
                   </div>
