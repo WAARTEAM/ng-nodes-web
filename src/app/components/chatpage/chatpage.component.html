@@ -6,7 +6,7 @@
       <div class="col-md- col-xl-4 px-0">
         <span style="text-align: center;">
           <button
-            (click)="changeRender('friends')"
+            (click)="getMessages()"
             type="button"
             outline="true"
             rounded="true"
@@ -27,7 +27,7 @@
           </button>
         </span>
         <div class="white z-depth-1 px-3 pt-3 p-2">
-          <!-- :========================================= Freinds list ==============================================-->
+          <!-- :========================================= Friends list ==============================================-->
           <ul
             *ngIf="render === 'friends'"
             style="height: 70vh; overflow-y: scroll; "

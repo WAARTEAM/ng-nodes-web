@@ -49,7 +49,7 @@ export class ChatpageComponent implements OnInit {
   }
   getChatroom() {
     this.http.get(`/groups/${this.currentRoom}`).subscribe(chatroom => {
-      console.log(chatroom);
+      this.messages = chatroom;
     });
   }
 
@@ -62,6 +62,7 @@ export class ChatpageComponent implements OnInit {
       .get(`/users/${this.currentReceiver}/messages`)
       .subscribe(messages => {
         this.messages = messages;
+        this.changeRender("friends");
       });
   }
   receiverId(message) {
@@ -74,7 +75,6 @@ export class ChatpageComponent implements OnInit {
     this.http.get("/groups").subscribe(data => {
       this.latestChatrooms = data;
       this.currentRoom = this.latestChatrooms[0]._id;
-
       this.getChatroom();
       this.changeRender("chatrooms");
     });
