@@ -10,6 +10,13 @@ export class ChatpageComponent implements OnInit {
   constructor(private http: HttpService) {}
   currentReceiver: any;
   currentUser: any;
+  currentRoom: any;
+  render: String = "friends";
+  messages: any;
+  latest: any;
+  latestChatrooms: any;
+  chatrooms: any;
+
   ngOnInit() {
     this.currentUser = localStorage.getItem("username");
     this.http.get(`/messages/latest`).subscribe(data => {
@@ -18,11 +25,7 @@ export class ChatpageComponent implements OnInit {
         this.latest[0].sender.username === this.currentUser
           ? this.latest[0].receiver._id
           : this.latest[0].sender._id;
-      this.http
-        .get(`/users/${this.currentReceiver}/messages`)
-        .subscribe(messages => {
-          this.messages = messages;
-        });
+     
     });
   }
   content: String;
@@ -39,7 +42,5 @@ export class ChatpageComponent implements OnInit {
       });
   }
 
-  messages: any;
-  
-  latest: any;
+
 }
