@@ -17,3 +17,4 @@ export class AppComponent implements OnInit {
    setTimeout(()=>this.authService.isAuthenticated.next(!!this.authService.getToken()) ,0) 
   }
 }
+//anything
