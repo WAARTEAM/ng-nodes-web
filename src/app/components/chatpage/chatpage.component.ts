@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http/http.service";
+import { WebsocketService } from '../../services/Websocket/Websocket.service'
+ 
 
 @Component({
   selector: "app-chatpage",
@@ -7,7 +9,7 @@ import { HttpService } from "src/app/services/http/http.service";
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
-  constructor(public http: HttpService) {}
+  constructor(public http: HttpService, private websocket :WebsocketService) {}
   currentReceiver: any;
   currentUser: any;
   currentRoom: any;
@@ -26,7 +28,17 @@ export class ChatpageComponent implements OnInit {
         this.latest[0].sender.username === this.currentUser
           ? this.latest[0].receiver._id
           : this.latest[0].sender._id;
-      this.getMessages();
+          // how to use socket service 
+          // getting data from the server 
+          //this.websocket.listen("message").subscribe((data)=>{
+          //   console.log(data)
+          // })
+
+           // how to use socket service 
+          // posting data from the server 
+          //this.websocket.emit("message",data)
+          // })
+     
     });
   }
   content: String;
@@ -42,47 +54,4 @@ export class ChatpageComponent implements OnInit {
       });
   }
 
-  changeCurrent(message) {
-    this.currentReceiver = this.receiverId(message);
-    this.getMessages();
-  }
-  getChatroom() {
-    this.http.get(`/groups/${this.currentRoom}`).subscribe(chatroom => {
-      this.messages = chatroom;
-    });
-  }
-
-  currentChatroom(chatroom) {
-    this.currentRoom = chatroom._id;
-  }
-
-  getMessages() {
-    this.http
-      .get(`/users/${this.currentReceiver}/messages`)
-      .subscribe(messages => {
-        this.messages = messages;
-        this.changeRender("friends");
-      });
-  }
-  receiverId(message) {
-    return message.sender.username === this.currentUser
-      ? message.receiver._id
-      : message.sender._id;
-  }
-
-  getChatrooms() {
-    this.http.get("/groups").subscribe(data => {
-      this.latestChatrooms = data;
-      this.currentRoom = this.latestChatrooms[0]._id;
-      this.getChatroom();
-      this.changeRender("chatrooms");
-    });
-  }
-  changeRender(str) {
-    this.render = str;
-  }
-  ngOnDestroy(): void {
-    this.latest = null;
-    console.log(this.latest)
-  }
 }

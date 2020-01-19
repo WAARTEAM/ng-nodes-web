@@ -10,6 +10,8 @@ export class LandingComponent implements OnInit {
   constructor(private http: HttpService) {}
 
 
-  ngOnInit() {}
+
+  ngOnInit() {
+  }
 
 }
