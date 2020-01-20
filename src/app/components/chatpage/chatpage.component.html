@@ -1,9 +1,9 @@
-<div class=" card blue-gradient lighten-3 chat-room mt-3">
+<div *ngIf="latest" class=" card blue-gradient lighten-3 chat-room mt-3">
   <div class="card-body">
     <!-- Grid row -->
     <div class="row px-lg-2 px-2">
       <!-- Grid column -->
-      <div class="col-md- col-xl-4 px-0">
+      <div *ngIf="innerWidth > 1270 || page == 'headers'" class="col-md- col-xl-4 px-0">
         <span style="text-align: center;">
           <button
             (click)="getMessages()"
@@ -29,13 +29,19 @@
 
         <div class="white z-depth-1 px-3 pt-3 p-2">
           <!-- :========================================= Friends list ==============================================-->
+          
           <ul
             *ngIf="render === 'friends'"
             style="height: 70vh; overflow-y: scroll; "
             class="list-unstyled friend-list "
           >
+          <li *ngIf="!latest.length"
+              class="lighten-3 p-2 text-muted text-center"
+              
+            >You have no messages yet </li>
             <li
-              (click)="changeCurrent(message)"
+            style="height: 5em;"
+              (click)="changeCurrent(message);page = 'chat'"
               *ngFor="let message of latest"
               class="lighten-3 p-2"
               [ngClass]="{
@@ -44,7 +50,10 @@
             >
               <a class="d-flex justify-content-between">
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                [src]="http.initialsGenerator(
+                  message.sender.username === currentUserUsername?
+                  message.receiver.firstname + ' ' + message.receiver.lastname : 
+                  message.sender.firstname + ' ' + message.sender.lastname )"
                   alt="avatar"
                   class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
                 />
@@ -61,11 +70,11 @@
                     }}
                   </strong>
                                     <br />
-                                    <p class="last-message text-muted">{{ message.content }}</p>
+                                    <p style="text-overflow: ellipsis; max-height: 1.5em; max-width: 120px; overflow: hidden;" class="last-message text-muted">{{ message.content }}</p>
                                 </div>
                                 <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Just now</p>
-                                    <span class="badge badge-danger float-right">1</span>
+                                    <p class="text-smaller text-muted mb-0">{{getTime(message._id)}}</p>
+                                    <!-- <span class="badge badge-danger float-right">1</span> -->
                                 </div>
                             </a>
                         </li>
@@ -76,14 +85,18 @@
 
 
           <!-- :========================================= Chats list ==============================================-->
-
           <ul
-            *ngIf="render === 'chatrooms'"
-            style="height: 65vh; overflow-y: scroll; "
-            class="list-unstyled friend-list "
+          *ngIf="render === 'chatrooms'"
+          style="height: 65vh; overflow-y: scroll; "
+          class="list-unstyled friend-list "
           >
+          <li *ngIf="!latestChatrooms.length"
+              class="lighten-3 p-2 text-muted text-center"
+              
+            >You are not in any chatroom yet </li>
+          
             <li
-              (click)="currentChatroom(chatroom)"
+              (click)="currentChatroom(chatroom);page = 'chat'"
               *ngFor="let chatroom of latestChatrooms"
               class="lighten-3 p-2"
             >
@@ -94,23 +107,18 @@
                   class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
                 />
                 <div class="text-small">
-                  <strong style="float: left;">
+                  <strong>
                     {{ chatroom.name }}
                   </strong>
                   <br />
                   <p class="last-message text-muted"></p>
                 </div>
                 <div class="chat-footer">
-                  <p class="text-smaller text-muted mb-0">Just now</p>
-                  <span class="badge badge-danger float-right">1</span>
+                  
                 </div>
               </a>
             </li>
           </ul>
-<<<<<<< HEAD
-          </div>
-        </div>
-=======
 
           <button
             data-toggle="modal"
@@ -128,7 +136,6 @@
         </div>
       </div>
 
->>>>>>> 0bbf0490fdf1f28dd4c5c262da50265d4be13583
       <!-- Grid column -->
       <!-- Central Modal Small -->
       <div
@@ -189,66 +196,72 @@
       <!-- Central Modal Small -->
 
       <!-- Grid column -->
-      <div class="col-md-6 col-xl-8 pl-md-3 mt-4 px-lg-auto px-0">
+      <div style="width: 100%;" *ngIf=" innerWidth > 1270 || page == 'chat'" [ngClass]="{'col-md-6 col-xl-8 pl-md-3 mt-4 px-lg-auto px-0': innerWidth > 1270}">
         <!-- dropdown list -->
-        <div class="dropdown">
-          <!--Trigger-->
+        <div class="row justify-content-between">
 
-          <a
-            type="button"
-            id="dropdownMenu2"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-            ><img
+          <i (click)="page = 'headers'" *ngIf="innerWidth < 1270" style="font-size: 2em;color: #fff;cursor: pointer;" class="mb-4 fas fa-arrow-left col"></i>
+  
+          <div style="color: #fff;cursor: pointer;text-align: right;"  *ngIf="render === 'chatrooms' && messages" class="mb-4 dropdown ml-auto col mr-4">
+            <!--Trigger-->
+  
+            <a
+              type="button"
               id="dropdownMenu2"
-              *ngIf="render === 'chatrooms'"
-              width="19px"
-              src="../../../assets/open-menu.png"
-          /></a>
-
-          <!--Menu-->
-          <div
-            *ngIf="currentRoom && currentUser"
-            class="dropdown-menu dropdown-primary"
-          >
-            <a
-              class="dropdown-item"
-              data-toggle="modal"
-              data-target="#modelFriends"
-              (click)="members()"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              ><img
+                id="dropdownMenu2"
+              
+                width="25px"
+                src="../../../assets/open-menu.png"
+            /></a>
+  
+            <!--Menu-->
+            <div
+              *ngIf="currentRoom && currentUser "
+              class="dropdown-menu dropdown-primary"
             >
-              Members
-            </a>
-            <a
-              *ngIf="currentUser._id === currentRoom.admin"
-              (click)="fetchFriends()"
-              class="dropdown-item"
-              data-toggle="modal"
-              data-target="#modelFriends"
-              >Add member</a
-            >
-            <a class="dropdown-item" (click)="leaveChatroom()"
-              >{{
-                currentUser._id === currentRoom.admin ? "Delete" : "Leave"
-              }}
-              chatroom</a
-            >
+              <a
+                class="dropdown-item"
+                data-toggle="modal"
+                data-target="#modelFriends"
+                (click)="members()"
+              >
+                Members
+              </a>
+              <a
+                *ngIf="currentUser._id === currentRoom.admin"
+                (click)="fetchFriends()"
+                class="dropdown-item"
+                data-toggle="modal"
+                data-target="#modelFriends"
+                >Add member</a
+              >
+              <a class="dropdown-item" (click)="leaveChatroom()"
+                >{{
+                  currentUser._id === currentRoom.admin ? "Delete" : "Leave"
+                }}
+                chatroom</a
+              >
+            </div>
           </div>
         </div>
         <!--  -->
 
-        <div class="chat-message">
-          <ul
+        <div *ngIf="messages" class="chat-message">
+          <ul id="scrollable"
+            [scrollTop]="100000000"
             class="list-unstyled chat"
-            style="height: 55vh; overflow-y: scroll; margin-top: 0px "
+            style="height: 65vh; overflow-y: scroll; margin-top: 0px;"
           >
             <!--================================= the Sent message ============================================  -->
-            <div *ngFor="let message of messages">
+            <div style="width: 95%;" *ngFor="let message of messages">
               <li
                 *ngIf="message.sender.username !== currentUserUsername"
-                class="d-flex justify-content-between mb-4"
-                style="height: 6em ;"
+                class="d-flex justify-content-left mb-4"
+                style="min-height: 5em ; width: 100%;"
               >
                 <img
                   [src]="
@@ -262,14 +275,14 @@
                 />
                 <div
                   class="chat-body white p-3 ml-2 z-depth-1"
-                  style="display: flex ; flex-direction: column; justify-content: center; width: 95%; float: left;"
+                  style="display: flex ; flex-direction: column; justify-content: center; width: 85%; float: left;"
                 >
                   <div class="header">
                     <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
-                    <small class="pull-right text-muted" style="float:right">
-                      <i class="far fa-clock"></i> 12 mins ago</small
+                    <small class="pull-right text-muted mx-4" style="float:right">
+                      <i class="far fa-clock"></i>{{getTime(message._id)}}</small
                     >
                   </div>
                   <hr class="w-100" style="margin:2px" />
@@ -281,19 +294,19 @@
               <!-- ============================ The recieved message ============================= -->
               <li
                 *ngIf="message.sender.username === currentUserUsername"
-                class="d-flex justify-content-between mb-4"
-                style="height: 6em;"
+                class="d-flex justify-content-right mb-4"
+                style="min-height: 5em;"
               >
                 <div
                   class="chat-body white p-3 ml-2 z-depth-1"
-                  style="display: flex ; flex-direction: column; justify-content: center; width: 100%;"
+                  style="display: flex ; flex-direction: column; justify-content: center; width: 85%;"
                 >
                   <div class="header">
                     <strong class="primary-font">{{
                       message.sender.firstname + " " + message.sender.lastname
                     }}</strong>
                     <small class="pull-right text-muted" style="float:right">
-                      <i class="far fa-clock"></i> 12 mins ago</small
+                      <i class="far fa-clock"></i>{{getTime(message._id)}}</small
                     >
                   </div>
                   <hr class="w-100" style="margin:2px" />
@@ -315,8 +328,8 @@
             </div>
             <!-- ============================ The textarea ============================= -->
           </ul>
-          <div class="white">
-            <div class="form-group basic-textarea">
+           <div >
+           <!-- <div class="form-group basic-textarea">
               <textarea
                 [(ngModel)]="content"
                 class="form-control pl-2 my-0"
@@ -334,21 +347,24 @@
               class="btn btn-info btn-rounded btn-sm waves-effect waves-light  float-right"
             >
               Send
-            </button>
-          </div>
+            </button>-->
+            <div class="md-form input-group mb-3">
+              <input [(ngModel)]="content" style="background: white;" type="text" class="form-control py-2" placeholder="Type your message here..." aria-label="Recipient's username"
+                aria-describedby="MaterialButton-addon2">
+              <div class="input-group-append">
+                <button (click)="sendMessage()" class="btn btn-md btn-info m-0 px-3 mr-4" type="button" id="MaterialButton-addon2">Send</button>
+              </div>
+            </div>
+          </div> 
         </div>
       </div>
       </div>
       <!-- Grid column -->
     </div>
-<<<<<<< HEAD
-    <!-- Grid row -->
-</div>
-=======
   </div>
 
   <!-- Grid row -->
-</div>
+<!-- </div> -->
 
 <!-- addMember -->
 
@@ -425,4 +441,3 @@
   </div>
 </div>
 <!--  -->
->>>>>>> 0bbf0490fdf1f28dd4c5c262da50265d4be13583
