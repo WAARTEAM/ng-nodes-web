@@ -16,18 +16,23 @@ export class HttpService {
     return `https://ui-avatars.com/api/?size=${size}&name=${name}&background=0fabcd&color=fff`;
   }
   get(route, query = "") {
+    
     // console.log(this.token);
     return this.http.get(this.dev + route + query, {
+
+      
       headers: this.token ? this.headers : null
     });
   }
   post(route, json) {
+
     return this.http.post(this.dev + route, json, {
       headers: this.token ? this.headers : null
     });
   }
   patch(route, json) {
     return this.http.patch(this.dev + route, json, {
+
       headers: this.token ? this.headers : null
     });
   }

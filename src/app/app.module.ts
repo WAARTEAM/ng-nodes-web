@@ -15,9 +15,7 @@ import { ProfileComponent } from "./components/profile/profile.component";
 import { ChatpageComponent } from "./components/chatpage/chatpage.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from './guards/auth.guard';
-import {NotAuthGuard} from './guards/notauth.guard';
-import { SearchAreaComponent } from './components/search-area/search-area.component';
-import { SettingsComponent } from './components/settings/settings.component'
+import {NotAuthGuard} from './guards/notauth.guard'
 
 @NgModule({
   declarations: [
@@ -27,9 +25,7 @@ import { SettingsComponent } from './components/settings/settings.component'
     LoginComponent,
     SignupComponent,
     ProfileComponent,
-    ChatpageComponent,
-    SearchAreaComponent,
-    SettingsComponent
+    ChatpageComponent
   ],
   imports: [
     BrowserModule,
@@ -44,3 +40,4 @@ import { SettingsComponent } from './components/settings/settings.component'
 })
 export class AppModule {}
 //back 
+

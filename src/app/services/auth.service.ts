@@ -15,11 +15,10 @@ export class AuthService {
   constructor(private http: HttpService, private router: Router) {}
   registerUser(user) {
     return this.http.post("/users", user);
-
-  
   }
   updateUserInfo(user) {
     return this.http.patch("/users", user);
+
 
   }
 

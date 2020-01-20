@@ -4,6 +4,7 @@ import { DataService } from 'src/app/services/data/data.service';
 import * as io from 'socket.io-client';
 import { WebsocketService } from 'src/app/services/Websocket/websocket.service';
 // import { WebsocketService } from '../../services/Websocket/Websocket.service'
+
  
 
 @Component({
@@ -12,7 +13,9 @@ import { WebsocketService } from 'src/app/services/Websocket/websocket.service';
   styleUrls: ["./chatpage.component.scss"]
 })
 export class ChatpageComponent implements OnInit {
+
   constructor(public http: HttpService, public data : DataService, private socketService : WebsocketService) {}
+
   currentReceiver: any;
   currentUserUsername: any;
   currentUser: any;
@@ -28,6 +31,7 @@ export class ChatpageComponent implements OnInit {
   page  = "chat"; 
   public innerWidth: any;
 
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
   this.innerWidth = window.innerWidth;
@@ -41,10 +45,10 @@ export class ChatpageComponent implements OnInit {
   //   scrollable.scrollTop = scrollable.scrollHeight
   // }
   ngOnInit() {
-    
     this.socket =  io("http://127.0.0.1:7000")
     this.innerWidth = window.innerWidth;
     console.log(window.innerWidth)
+
     this.currentUserUsername = localStorage.getItem("username");
     this.http.get(`/users/${this.currentUserUsername}`).subscribe(data => {
       this.currentUser = data["user"];
@@ -65,8 +69,10 @@ export class ChatpageComponent implements OnInit {
   content: String;
 
   sendMessage() {
+
     var scroll = document.getElementById("scrollable")
     console.log(scroll)
+
     if (this.render === "friends") {
       this.http
         .post(`/users/${this.currentReceiver}/messages`, {
@@ -75,6 +81,7 @@ export class ChatpageComponent implements OnInit {
         .subscribe(data => {
           this.messages.push(data);
           scroll.scrollTop = scroll.scrollHeight
+
         });
     } else if (this.render === "chatrooms") {
       this.http
@@ -87,6 +94,7 @@ export class ChatpageComponent implements OnInit {
         });
     }
     this.content = ""
+
   }
 
 
@@ -134,6 +142,7 @@ export class ChatpageComponent implements OnInit {
         this.currentRoom = this.latestChatrooms[0];
         this.getChatroom();
       }
+
       this.changeRender("chatrooms");
     });
   }
@@ -143,13 +152,14 @@ export class ChatpageComponent implements OnInit {
   ngOnDestroy(): void {
     this.latest = null;
   }
-  
+
   createChatroom() {
     this.http
     .post("/groups", { name: this.chatroomName })
     .subscribe(chatroom => {
       this.latestChatrooms.push(chatroom);
     });
+
   }
   addMember(user) {
     if (!this.toggle) {
@@ -163,6 +173,8 @@ export class ChatpageComponent implements OnInit {
     fetchFriends() {
       this.toggle = false;
       this.http
+
+    
       .get(`/users/${this.currentUser._id}/friends`)
       .subscribe(friends => {
         console.log(friends);
@@ -183,3 +195,4 @@ export class ChatpageComponent implements OnInit {
     }
     
   }
+

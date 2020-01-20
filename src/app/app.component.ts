@@ -1,6 +1,5 @@
 import { Component,OnInit } from "@angular/core";
 import { AuthService } from './services/auth.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "app-root",
@@ -9,12 +8,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private authService:AuthService,private activatedRoute : ActivatedRoute){
+  constructor(private authService:AuthService){
 
   }
   title = "ng-nodes-web";
   ngOnInit(): void {
-   console.log(this.activatedRoute)
+    // console.log(!!this.authService.getToken(),this.authService.getToken())
    setTimeout(()=>this.authService.isAuthenticated.next(!!this.authService.getToken()) ,0) 
   }
 }
+//anything
