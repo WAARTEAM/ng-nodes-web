@@ -9,5 +9,9 @@ import { HttpService } from "src/app/services/http/http.service";
 export class LandingComponent implements OnInit {
   constructor(private http: HttpService) {}
 
-  ngOnInit() {}
+
+
+  ngOnInit() {
+  }
+
 }

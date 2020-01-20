@@ -15,9 +15,19 @@ export class AuthService {
   constructor(private http: HttpService, private router: Router) {}
   registerUser(user) {
     return this.http.post("/users", user);
+
+  
   }
+  updateUserInfo(user) {
+    return this.http.patch("/users", user);
+
+  }
+
   authenticateUser(user) {
-    return this.http.post("/users/authenticate", user);
+    return this.http.post(
+      "/users/authenticate",
+      user
+    );
   }
 
   storeUserData(token, user) {
@@ -30,7 +40,6 @@ export class AuthService {
     return !!localStorage.getItem("id_token");
   }
   logout() {
-    console.log("hello");
     localStorage.clear();
     this.router.navigate([""]);
     this.isAuthenticated.next(false);
