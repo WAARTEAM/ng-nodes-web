@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import 'rxjs/add/operator/scan';
+
+import { Observable } from 'rxjs';
+// import 'rxjs/add/operator/scan';
 // import * as Rx from 'rxjs/Rx'; 
-import { Observable, Subject ,asapScheduler, pipe, of, from, interval, merge, fromEvent, Subscriber } from 'rxjs';
+// import { Observable, Subject ,asapScheduler, pipe, of, from, interval, merge, fromEvent, Subscriber } from 'rxjs';
 
 
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+// import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +16,16 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 export class WebsocketService {
  // socket that connect to socket io server 
    socket: any;
-   uri = "" ; // the url of socket server
+
+   uri = "http://127.0.0.1:7000" ; // the url of socket server
+
 
   constructor() {
     this.socket = io(this.uri)
    }
-   // Listen on an event and return the data from it 
+
+  //  // Listen on an event and return the data from it 
+
    
   listen(eventName:String){
    return new Observable((subscriber)=>{

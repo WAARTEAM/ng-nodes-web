@@ -1,42 +1,50 @@
-<div class=" card blue-gradient lighten-3 chat-room mt-3">
-    <div  class="card-body">
+<div *ngIf="$user | async as user" class=" card blue-gradient lighten-3 chat-room mt-3">
+    <div   class="card-body">
       <!-- Grid row -->
-      <div class="row px-lg-2 px-2">
+      <div class="row px-lg-2 px-2 justify-content-center">
         <!-- Grid column -->
-        <div class="mx-auto">
-          <div style="width: 800px;" class="white z-depth-1 px-3 pt-3 p-2">
+        <div style="width: 70%;" class="mx-auto">
+          <div style="width: 100%;" class="white z-depth-1 px-3 pt-3 p-2">
             <form #submitForm="ngForm" class="text-center" (ngSubmit)="formSubmitted(submitForm)" style="color: #9933CC;">
                 <!-- User Name -->
                 <div class="md-form">
-                    <input required type="text" id="materialRegisterFormPhone" class="form-control" aria-describedby="materialRegisterFormPhoneHelpBlock" mdbInput ngModel name="username" />
+                    <input  required type="text" id="materialRegisterFormPhone" class="form-control" aria-describedby="materialRegisterFormPhoneHelpBlock" mdbInput [ngModel]="user.username" name="username" />
                     <label for="materialRegisterFormPhone">Username</label>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <!-- First name -->
                         <div class="md-form">
-                            <input required name="firstname" type="text" id="materialRegisterFormFirstName" class="form-control " mdbInput ngModel/>
+                            <input required name="firstname" type="text" id="materialRegisterFormFirstName" class="form-control " mdbInput [ngModel]="user.firstname" />
                             <label for="materialRegisterFormFirstName">First name</label>
                         </div>
                     </div>
                     <div class="col">
                         <!-- Last name -->
                         <div class="md-form">
-                            <input required type="email" id="materialRegisterFormLastName" class="form-control" mdbInput ngModel name="lastname" />
+                            <input required type="email" id="materialRegisterFormLastName" class="form-control" mdbInput [ngModel]="user.lastname" name="lastname" />
                             <label for="materialRegisterFormLastName">Last name</label>
                         </div>
                     </div>
                 </div>
                 <!-- E-mail -->
                 <div class="md-form mt-0">
-                    <input required type="email" id="materialRegisterFormEmail" class="form-control" mdbInput ngModel name="email" />
+                    <input required type="email" id="materialRegisterFormEmail" class="form-control" mdbInput [ngModel]="user.email" name="email" />
                     <label for="materialRegisterFormEmail">E-mail</label>
                 </div>
+
+                <!-- Bio -->
+
+                <div class="md-form mt-0">
+                    <input required type="text" id="materialRegisterFormBio" class="form-control" mdbInput [ngModel]="user.bio" name="bio" />
+                    <label for="materialRegisterFormBio">Bio</label>
+                </div>
+
                 <!-- Password -->
                 <div class="md-form">
-                    <input required type="password" id="materialRegisterFormPassword" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock" mdbInput ngModel name="password" />
-                    <label for="materialRegisterFormPassword">New Password</label>
-                    <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                    <input required type="password" id="materialRegisterFormNewPassword" class="form-control" aria-describedby="materialRegisterFormNewPasswordHelpBlock" mdbInput ngModel name="newpassword" />
+                    <label for="materialRegisterFormNewPassword">New Password</label>
+                    <small id="materialRegisterFormNewPasswordHelpBlock" class="form-text text-muted mb-4">
               At least 8 characters
             </small>
                 </div>
