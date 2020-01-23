@@ -1,76 +1,42 @@
-<div
-  *ngIf="status && $user | async as user"
-  style="display: flex; flex-direction:column; height: 600px;"
-  class="card testimonial-card my-4 text-center"
->
-  <!-- Background color -->
-  <div style="flex:10;" class="card-up blue-gradient"></div>
+<div *ngIf="status && $user | async as user" style="display: flex; flex-direction:column; height: 600px;" class="card testimonial-card my-4 text-center">
+    <!-- Background color -->
+    <div style="flex:10;" class="card-up blue-gradient"></div>
 
-  <!-- Avatar -->
-  <div style="margin-top: -125px; border-radius: 200px;" class="mx-auto white">
-    <img
-      [src]="http.initialsGenerator(user.firstname + ' ' + user.lastname)"
+    <!-- Avatar -->
+    <div style="margin-top: -125px; border-radius: 200px;" class="mx-auto white">
+        <img [src]="http.initialsGenerator(user.firstname + ' ' + user.lastname)" class="rounded-circle" alt="woman avatar" />
+    </div>
 
-      class="rounded-circle"
-      alt="woman avatar"
-    />
-  </div>
+    <!-- Content -->
+    <div style="flex:13" class="card-body">
+        <!-- Name -->
+        <h4 class="card-title">{{ user.firstname + " " + user.lastname }}</h4>
+        <hr />
+        <!-- Quotation -->
+        <p>
+            <i class="fas fa-quote-left"></i> {{user.bio}}
 
-  <!-- Content -->
-  <div style="flex:13" class="card-body">
-    <!-- Name -->
-    <h4 class="card-title">{{ user.firstname + " " + user.lastname }}</h4>
-    <hr />
-    <!-- Quotation -->
-    <p>
-      <i class="fas fa-quote-left"></i> {{user.bio}}
+        </p>
 
-    </p>
-
-    <div
-      class="modal fade"
-      id="modelSendMessage"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="myModalLabel"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog cascading-modal modal-avatar modal-sm"
-        role="document"
-      >
-        <!--Content-->
-        <div class="modal-content">
-          <!--Header-->
-          <div class="modal-header">
-            <img
-              [src]="
+        <div class="modal fade" id="modelSendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <img [src]="
                 http.initialsGenerator(user.firstname + ' ' + user.lastname)
-              "
-              class="rounded-circle"
-              alt="avatar"
-            />
-          </div>
-          <!--Body-->
-          <div class="modal-body text-center mb-1">
-            <h5 class="mt-1 mb-2">
-              {{ user.firstname + " " + user.lastname }}
-            </h5>
+              " class="rounded-circle" alt="avatar" />
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body text-center mb-1">
+                        <h5 class="mt-1 mb-2">
+                            {{ user.firstname + " " + user.lastname }}
+                        </h5>
 
-            <div class="md-form ml-0 mr-0">
-              <input
-                #inputField
-                type="text"
-                type="text"
-                id="form29"
-                class="form-control form-control-sm validate ml-0"
-              />
-              <label
-                data-error="wrong"
-                data-success="Sent"
-                for="form29"
-                class="ml-0"
-                >Enter Your Message</label
+                        <div class="md-form ml-0 mr-0">
+                            <input #inputField type="text" type="text" id="form29" class="form-control form-control-sm validate ml-0" />
+                            <label data-error="wrong" data-success="Sent" for="form29" class="ml-0">Enter Your Message</label
               >
             </div>
 
@@ -175,10 +141,9 @@
                   style="height: 6em;"
                 >
                   <img
-                    src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
                     alt="avatar"
                     class="avatar rounded-circle conv mr-2 ml-lg-3 ml-0 z-depth-1"
-                    src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg"
+                    [src]="http.initialsGenerator(friend.firstname + ' ' + friend.lastname,90)"
                   />
                   <div
                     class="chat-body white p-3 ml-2 z-depth-1"

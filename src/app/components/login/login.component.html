@@ -1,76 +1,43 @@
 <!-- Material form register -->
-<div class="card" style="margin: 10% 35%;">
-  <h5 class="card-header info-color white-text text-center py-4 blue-gradient">
-    <strong>Login</strong>
-  </h5>
+<div class="card mx-auto" style="width: 350px; height: 400px; margin-top: 70px;">
+    <h5 class="card-header info-color white-text text-center py-4 blue-gradient">
+        <strong>Login</strong>
+    </h5>
 
-  <!--Card content-->
-  <div class="card-body px-lg-5 pt-0">
-    <!-- Form -->
-    <form
-      #form="ngForm"
-      (ngSubmit)="onLogin(form)"
-      class="text-center"
-      style="color: #757575;"
-      action="#!"
-    >
-      <div class="form-row">
-        <div class="col">
-          <!-- First name -->
-          <div class="md-form">
-            <input
-              type="text"
-              id="materialRegisterFormFirstName"
-              class="form-control"
-              ngModel
-              name="username"
-            />
-            <label for="materialRegisterFormFirstName">Username</label>
-          </div>
-        </div>
-      </div>
+    <!--Card content-->
+    <div class="card-body px-lg-5 pt-0">
+        <!-- Form -->
+        <form #form="ngForm" (ngSubmit)="onLogin(form)" class="text-center" style="color: #757575;" action="#!">
+            <div class="form-row">
+                <div class="col">
+                    <!-- First name -->
+                    <div class="md-form">
+                        <input type="text" id="materialRegisterFormFirstName" class="form-control" ngModel name="username" />
+                        <label for="materialRegisterFormFirstName">Username</label>
+                    </div>
+                </div>
+            </div>
 
-      <!-- E-mail -->
+            <!-- E-mail -->
 
-      <!-- Password -->
-      <div class="md-form">
-        <input
-          type="password"
-          id="materialRegisterFormPassword"
-          class="form-control"
-          aria-describedby="materialRegisterFormPasswordHelpBlock"
-          ngModel
-          name="password"
-        />
-        <label for="materialRegisterFormPassword">Password</label>
-        <small
-          id="materialRegisterFormPasswordHelpBlock"
-          class="form-text text-muted mb-4"
-        >
+            <!-- Password -->
+            <div class="md-form">
+                <input type="password" id="materialRegisterFormPassword" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock" ngModel name="password" />
+                <label for="materialRegisterFormPassword">Password</label>
+                <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
           At least 8 characters and 1 digit
         </small>
-      </div>
+            </div>
 
-      <!-- Sign up button -->
-      <button
-        (click)="(submit)"
-        mdbBtn
-        color="info"
-        outline="true"
-        rounded="true"
-        block="true"
-        class="my-4 waves-effect z-depth-0"
-        mdbWavesEffect
-        type="submit"
-        style="border-radius: 20px;"
-      >
+            <!-- Sign up button -->
+            <button (click)="(submit)" mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0" mdbWavesEffect type="submit" style="border-radius: 20px;">
         Sign in
       </button>
 
-      <hr />
-    </form>
+            <hr />
+        </form>
 
-    <!-- Form -->
-  </div>
+        <!-- Form -->
+    </div>
 </div>
 <!-- Material form register -->
