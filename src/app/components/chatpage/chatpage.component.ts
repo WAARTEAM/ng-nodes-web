@@ -2,8 +2,7 @@ import { Component, OnInit, HostListener } from "@angular/core";
 import { HttpService } from "src/app/services/http/http.service";
 import { DataService } from 'src/app/services/data/data.service';
 import * as io from 'socket.io-client';
-import { WebsocketService } from 'src/app/services/Websocket/websocket.service';
-// import { WebsocketService } from '../../services/Websocket/Websocket.service'
+// import { WebsocketService } from 'src/app/services/Websocket/websocket.service';
 
  
 
@@ -14,7 +13,7 @@ import { WebsocketService } from 'src/app/services/Websocket/websocket.service';
 })
 export class ChatpageComponent implements OnInit {
 
-  constructor(public http: HttpService, public data : DataService, private socketService : WebsocketService) {}
+  constructor(public http: HttpService, public data : DataService) {}
 
   currentReceiver: any;
   currentUserUsername: any;
@@ -29,6 +28,7 @@ export class ChatpageComponent implements OnInit {
   chatroomName: any;
   toggle: boolean;
   page  = "chat"; 
+  height = "60vh"
   public innerWidth: any;
 
 
@@ -38,15 +38,15 @@ export class ChatpageComponent implements OnInit {
   console.log(this.innerWidth)
 }
     socket:any;
-  // ngAfterViewInit(): void {
-  //   //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-  //   //Add 'implements AfterViewInit' to the class.
-  //   var scrollable = document.getElementById("scrollable")
-  //   scrollable.scrollTop = scrollable.scrollHeight
-  // }
+ 
   ngOnInit() {
     this.socket =  io("http://127.0.0.1:7000")
     this.innerWidth = window.innerWidth;
+    this.socket.on("message" , data=>{
+      console.log(this.messages,"HERERERERERERERERERE")
+      if(!this.messages) this.messages = []
+      this.messages.push(data)
+    })
     console.log(window.innerWidth)
 
     this.currentUserUsername = localStorage.getItem("username");
@@ -79,7 +79,9 @@ export class ChatpageComponent implements OnInit {
           content: this.content
         })
         .subscribe(data => {
-          this.messages.push(data);
+          if(this.messages[0])
+          this.socket.emit("message", {message : data, id: this.messages[0]._id})
+          // this.messages.push(data);
           scroll.scrollTop = scroll.scrollHeight
 
         });
@@ -89,7 +91,8 @@ export class ChatpageComponent implements OnInit {
           content: this.content
         })
         .subscribe(data => {
-          this.messages.push(data);
+          this.socket.emit("message", {message : data, id: this.currentRoom._id})
+          // this.messages.push(data);
           scroll.scrollTop = scroll.scrollHeight
         });
     }
@@ -104,8 +107,12 @@ export class ChatpageComponent implements OnInit {
   }
 
   getChatroom() {
+    this.socket.emit("leaveRoom", this.currentRoom._id)
+    this.messages = undefined
     this.http.get(`/groups/${this.currentRoom._id}`).subscribe(chatroom => {
       this.messages = chatroom;
+      if(this.messages[0]) this.socket.emit("joinRoom", this.currentRoom._id)
+
     });
   }
 
@@ -115,19 +122,22 @@ export class ChatpageComponent implements OnInit {
   }
 
   getMessages() {
+    if(this.messages && this.messages[0]) this.socket.emit("leaveRoom", this.messages[0]._id)
     this.messages = undefined;
     if(this.currentReceiver){
       this.http
-        .get(`/users/${this.currentReceiver}/messages`)
-        .subscribe(messages => {
-          this.messages = messages;
-   
-          this.changeRender("friends");
-        });
-
+      .get(`/users/${this.currentReceiver}/messages`)
+      .subscribe(messages => {
+        this.messages = messages;
+        if(messages[0]) this.socket.emit("joinRoom", messages[0]._id)
+        
+        this.changeRender("friends");
+      });
+      
     }else{
       this.changeRender("friends");
     }
+    this.height = "65vh"
   }
   receiverId(message) {
     return message.sender.username === this.currentUserUsername
@@ -137,20 +147,23 @@ export class ChatpageComponent implements OnInit {
   getChatrooms() {
     this.http.get("/groups").subscribe(data => {
       this.latestChatrooms = data;
+      
       this.messages = null
       if(this.latestChatrooms.length != 0){
         this.currentRoom = this.latestChatrooms[0];
         this.getChatroom();
       }
-
+      
       this.changeRender("chatrooms");
     });
+    this.height = "60vh"
   }
   changeRender(str) {
     this.render = str;
   }
   ngOnDestroy(): void {
     this.latest = null;
+    this.socket.disconnect()
   }
 
   createChatroom() {
@@ -172,10 +185,7 @@ export class ChatpageComponent implements OnInit {
     }
     fetchFriends() {
       this.toggle = false;
-      this.http
-
-    
-      .get(`/users/${this.currentUser._id}/friends`)
+      this.http.get(`/groups/${this.currentRoom._id}/friendlist`)
       .subscribe(friends => {
         console.log(friends);
         this.friends = friends;

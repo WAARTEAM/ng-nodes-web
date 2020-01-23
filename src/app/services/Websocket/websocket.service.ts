@@ -20,21 +20,21 @@ export class WebsocketService {
    uri = "http://127.0.0.1:7000" ; // the url of socket server
 
 
-  constructor() {
-    this.socket = io(this.uri)
-   }
+  // constructor() {
+  //   this.socket = io(this.uri)
+  //  }
 
   //  // Listen on an event and return the data from it 
 
    
-  listen(eventName:String){
-   return new Observable((subscriber)=>{
-     this.socket.on(eventName, (data)=>{
-      subscriber.next(data);
-     })
-   })
-  }
-  emit(eventName: string, data:any){
-    this.socket.emit(eventName, data)
-  }   
+  // listen(eventName:String){
+  //  return new Observable((subscriber)=>{
+  //    this.socket.on(eventName, (data)=>{
+  //     subscriber.next(data);
+  //    })
+  //  })
+  // }
+  // emit(eventName: string, data:any){
+  //   this.socket.emit(eventName, data)
+  // }   
 }
